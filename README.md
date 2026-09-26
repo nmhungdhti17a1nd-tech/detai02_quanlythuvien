@@ -27,9 +27,9 @@ Bài tập lớn môn **Thực hành lập trình .NET** — Đề tài 02: Xây
 | STT | Họ và tên | Mã sinh viên | Module phụ trách |
 |-----|-----------|--------------|------------------|
 | 1 | Chu Công Đạt | | Module 1 — Tài khoản, Đăng nhập, Phân quyền, Quản lý thể loại |
-| 2 | Nguyễn Văn Hùng | | Module 2 — Quản lý và tra cứu sách |
-| 3 | Nguyễn Mạnh Hùng | | Module 3 — Quản lý độc giả và đăng ký mượn sách |
-| 4 | Vũ Duy Anh | 23203100075 | Module 4 — Quản lý mượn trả, Dashboard, Thống kê |
+| 2 | Vũ Duy Anh | | Module 2 — Quản lý và tra cứu sách |
+| 3 | Nguyễn Văn Hùng | | Module 3 — Quản lý độc giả và đăng ký mượn sách |
+| 4 | Nguyễn Mạnh Hùng | 23203100075 | Module 4 — Quản lý mượn trả, Dashboard, Thống kê |
 
 ## 4. Cấu trúc thư mục
 
