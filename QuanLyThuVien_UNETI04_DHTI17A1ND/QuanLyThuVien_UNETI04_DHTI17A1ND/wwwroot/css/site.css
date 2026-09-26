@@ -29,3 +29,39 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+/* ===== BANNER ===== */
+.banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 80px 0;
+}
+
+    .banner h1 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+/* ===== CARD SÁCH ===== */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    }
+
+.card-img-top {
+    height: 300px;
+    object-fit: cover;
+}
+
+/* ===== BADGE ===== */
+.badge {
+    font-size: 0.85rem;
+    padding: 5px 10px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    margin-top: auto;
+}
