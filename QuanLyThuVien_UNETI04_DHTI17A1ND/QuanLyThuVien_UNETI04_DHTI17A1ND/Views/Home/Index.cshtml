@@ -1,8 +1,181 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- ===== BANNER ===== -->
+<div class="banner text-center text-white mb-5">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold">Thư Viện UNETI</h1>
+        <p class="lead">Khám phá kho tàng tri thức với hàng ngàn đầu sách</p>
+        <a href="#danh-sach-sach" class="btn btn-light btn-lg mt-3">
+            <i class="bi bi-book"></i> Xem sách ngay
+        </a>
+    </div>
 </div>
+
+<!-- ===== DANH SÁCH SÁCH NỔI BẬT ===== -->
+<div class="container mb-5" id="danh-sach-sach">
+    <h2 class="text-center mb-4">📚 Sách nổi bật</h2>
+
+    <div class="row">
+        <!-- Sách 1 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/300x400?text=Sach+1"
+                     class="card-img-top" alt="Sách 1">
+                <div class="card-body">
+                    <h5 class="card-title">Tắt đèn</h5>
+                    <p class="card-text text-muted">Tác giả: Ngô Tất Tố</p>
+                    <p class="card-text">
+                        <span class="badge bg-success">Còn sách</span>
+                    </p>
+                    <p class="card-text fw-bold text-danger">50.000 VNĐ</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sách 2 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/300x400?text=Sach+2"
+                     class="card-img-top" alt="Sách 2">
+                <div class="card-body">
+                    <h5 class="card-title">Số đỏ</h5>
+                    <p class="card-text text-muted">Tác giả: Vũ Trọng Phụng</p>
+                    <p class="card-text">
+                        <span class="badge bg-success">Còn sách</span>
+                    </p>
+                    <p class="card-text fw-bold text-danger">60.000 VNĐ</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sách 3 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/300x400?text=Sach+3"
+                     class="card-img-top" alt="Sách 3">
+                <div class="card-body">
+                    <h5 class="card-title">Lão Hạc</h5>
+                    <p class="card-text text-muted">Tác giả: Nam Cao</p>
+                    <p class="card-text">
+                        <span class="badge bg-warning text-dark">Sắp hết</span>
+                    </p>
+                    <p class="card-text fw-bold text-danger">45.000 VNĐ</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sách 4 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/300x400?text=Sach+4"
+                     class="card-img-top" alt="Sách 4">
+                <div class="card-body">
+                    <h5 class="card-title">Chí Phèo</h5>
+                    <p class="card-text text-muted">Tác giả: Nam Cao</p>
+                    <p class="card-text">
+                        <span class="badge bg-success">Còn sách</span>
+                    </p>
+                    <p class="card-text fw-bold text-danger">55.000 VNĐ</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sách 5 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/300x400?text=Sach+5"
+                     class="card-img-top" alt="Sách 5">
+                <div class="card-body">
+                    <h5 class="card-title">Dế Mèn Phiêu Lưu Ký</h5>
+                    <p class="card-text text-muted">Tác giả: Tô Hoài</p>
+                    <p class="card-text">
+                        <span class="badge bg-success">Còn sách</span>
+                    </p>
+                    <p class="card-text fw-bold text-danger">70.000 VNĐ</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sách 6 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://via.placeholder.com/300x400?text=Sach+6"
+                     class="card-img-top" alt="Sách 6">
+                <div class="card-body">
+                    <h5 class="card-title">Những Người Khốn Khổ</h5>
+                    <p class="card-text text-muted">Tác giả: Victor Hugo</p>
+                    <p class="card-text">
+                        <span class="badge bg-danger">Hết sách</span>
+                    </p>
+                    <p class="card-text fw-bold text-danger">120.000 VNĐ</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm disabled">Hết sách</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== THÔNG TIN THƯ VIỆN ===== -->
+<div class="bg-light py-5 mb-5">
+    <div class="container">
+        <h2 class="text-center mb-4">🏛️ Về thư viện</h2>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <h3 class="text-primary">5000+</h3>
+                <p>Đầu sách</p>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-success">1000+</h3>
+                <p>Độc giả</p>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-warning">24/7</h3>
+                <p>Hỗ trợ</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Thư Viện UNETI</h5>
+                <p>Hệ thống quản lý thư viện và mượn trả sách</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <h5>Liên hệ</h5>
+                <p>Email: library@uneti.edu.vn</p>
+                <p>Điện thoại: 0123 456 789</p>
+            </div>
+        </div>
+        <hr>
+        <p class="text-center mb-0">© 2026 Thư Viện UNETI. All rights reserved.</p>
+    </div>
+</footer>
