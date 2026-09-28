@@ -1,0 +1,81 @@
+﻿@* Họ và tên: Nguyễn Mạnh Hùng *@
+@* Mã sinh viên: 23203100075 *@
+@* Nội dung thực hiện: Module 4 - Ghi nhận trả sách *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.TraSachViewModel
+@{
+    ViewData["Title"] = "Trả sách";
+}
+
+<h2>Ghi nhận trả sách - Phiếu #@Model.MaPhieuMuon</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Độc giả</dt>
+            <dd class="col-sm-9">@Model.TenDocGia</dd>
+
+            <dt class="col-sm-3">Ngày mượn</dt>
+            <dd class="col-sm-9">@Model.NgayMuon.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Hạn trả</dt>
+            <dd class="col-sm-9">@Model.HanTra.ToString("dd/MM/yyyy")</dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="TraSach" asp-route-id="@Model.MaPhieuMuon" method="post">
+    @Html.AntiForgeryToken()
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>STT</th>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Số lượng mượn</th>
+                <th>Ngày trả</th>
+                <th>Tình trạng trả</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.DanhSachSach.Count; i++)
+            {
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>
+                        @Model.DanhSachSach[i].TenSach
+                        <input type="hidden" asp-for="DanhSachSach[i].MaChiTiet" />
+                        <input type="hidden" asp-for="DanhSachSach[i].TenSach" />
+                        <input type="hidden" asp-for="DanhSachSach[i].TacGia" />
+                        <input type="hidden" asp-for="DanhSachSach[i].SoLuongMuon" />
+                    </td>
+                    <td>@Model.DanhSachSach[i].TacGia</td>
+                    <td>@Model.DanhSachSach[i].SoLuongMuon</td>
+                    <td>
+                        <input asp-for="DanhSachSach[i].NgayTra" type="date" class="form-control" />
+                        <span asp-validation-for="DanhSachSach[i].NgayTra" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <select asp-for="DanhSachSach[i].TinhTrangTra" class="form-select">
+                            <option value="Tốt">Tốt</option>
+                            <option value="Hư hỏng">Hư hỏng</option>
+                            <option value="Mất">Mất</option>
+                        </select>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary"
+            onclick="return confirm('Xác nhận trả sách cho phiếu này?');">
+        Xác nhận trả
+    </button>
+    <a href="/PhieuMuon/Details/@Model.MaPhieuMuon" class="btn btn-secondary">Quay lại</a>
+</form>

@@ -1,0 +1,113 @@
+﻿@* Họ và tên: Nguyễn Mạnh Hùng *@
+@* Mã sinh viên: 23203100075 *@
+@* Nội dung thực hiện: Module 4 - Danh sách phiếu mượn *@
+
+@model IEnumerable<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.PhieuMuon>
+@{
+    ViewData["Title"] = "Danh sách phiếu mượn";
+    var trangThaiList = new Dictionary<int, string>
+    {
+        { 0, "Chờ xác nhận" },
+        { 1, "Đang mượn" },
+        { 2, "Đã trả" },
+        { 3, "Đã hủy" }
+    };
+}
+
+<h2>Danh sách phiếu mượn</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <label class="form-label">Tên độc giả</label>
+        <input type="text" name="tenDocGia" value="@ViewBag.TenDocGia" class="form-control" placeholder="Nhập tên..." />
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Trạng thái</label>
+        <select name="trangThai" class="form-select">
+            <option value="">-- Tất cả --</option>
+            @foreach (var item in trangThaiList)
+            {
+                if (ViewBag.TrangThai != null && (int)ViewBag.TrangThai == item.Key)
+                {
+                    <option value="@item.Key" selected>@item.Value</option>
+                }
+                else
+                {
+                    <option value="@item.Key">@item.Value</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Từ ngày</label>
+        <input type="date" name="tuNgay" value="@ViewBag.TuNgay" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Đến ngày</label>
+        <input type="date" name="denNgay" value="@ViewBag.DenNgay" class="form-control" />
+    </div>
+    <div class="col-md-3 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <a href="/PhieuMuon" class="btn btn-secondary">Xóa lọc</a>
+    </div>
+</form>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Mã phiếu</th>
+            <th>Độc giả</th>
+            <th>Ngày mượn</th>
+            <th>Hạn trả</th>
+            <th>Số sách</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaPhieuMuon</td>
+                    <td>@item.DocGia?.HoTen</td>
+                    <td>@item.NgayMuon.ToString("dd/MM/yyyy")</td>
+                    <td>@item.HanTra.ToString("dd/MM/yyyy")</td>
+                    <td>@(item.ChiTietPhieuMuons?.Count ?? 0)</td>
+                    <td>
+                        @switch (item.TrangThai)
+                        {
+                            case 0:
+                                <span class="badge bg-warning text-dark">Chờ xác nhận</span>
+                                break;
+                            case 1:
+                                <span class="badge bg-primary">Đang mượn</span>
+                                break;
+                            case 2:
+                                <span class="badge bg-success">Đã trả</span>
+                                break;
+                            case 3:
+                                <span class="badge bg-secondary">Đã hủy</span>
+                                break;
+                        }
+                    </td>
+                    <td>
+                        <a href="/PhieuMuon/Details/@item.MaPhieuMuon" class="btn btn-sm btn-info">Chi tiết</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">Không có phiếu mượn nào.</td>
+            </tr>
+        }
+    </tbody>
+</table>
