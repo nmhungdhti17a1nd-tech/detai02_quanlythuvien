@@ -2,12 +2,18 @@
 .vs/
 *.user
 *.suo
+*.vsidx
+*.sln.docstates
 
 # Build results
 [Bb]in/
 [Oo]bj/
 [Dd]ebug/
 [Rr]elease/
+x64/
+x86/
+build/
+bld/
 
 # Rider / VS Code
 .idea/
@@ -16,6 +22,15 @@
 # OS
 Thumbs.db
 .DS_Store
+Desktop.ini
 
 # Logs
 *.log
+
+# NuGet
+*.nupkg
+packages/
+!packages/build/
+
+# Appsettings (quan trọng cho Module 2)
+**/appsettings.json
