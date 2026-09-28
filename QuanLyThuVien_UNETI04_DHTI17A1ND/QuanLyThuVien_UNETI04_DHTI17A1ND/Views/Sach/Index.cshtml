@@ -1,0 +1,144 @@
+﻿@* Họ và tên: Vũ Duy Anh *@
+@* Mã sinh viên: 23203100073 *@
+@* Nội dung thực hiện: Danh sách sách - Tìm kiếm/Lọc/Sắp xếp/Phân trang *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.ViewModels.SachSearchViewModel
+
+@{
+    ViewData["Title"] = "Danh sách sách";
+}
+
+<h1>Danh sách sách</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">+ Thêm sách mới</a>
+</p>
+
+<form method="get" asp-action="Index" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <input type="text" name="tuKhoa" value="@Model.TuKhoa" class="form-control" placeholder="Tên sách / Tác giả..." />
+    </div>
+    <div class="col-md-2">
+        <select name="maTheLoai" class="form-select">
+            <option value="">-- Thể loại --</option>
+            @foreach (var tl in Model.DanhSachTheLoai)
+            {
+                <option value="@tl.Value" selected="@(Model.MaTheLoai?.ToString() == tl.Value)">@tl.Text</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="nhaXuatBan" class="form-select">
+            <option value="">-- NXB --</option>
+            @foreach (var nxb in Model.DanhSachNhaXuatBan)
+            {
+                <option value="@nxb.Value" selected="@(Model.NhaXuatBan == nxb.Value)">@nxb.Text</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-1">
+        <input type="number" name="namTu" value="@Model.NamXuatBanTu" class="form-control" placeholder="Năm từ" />
+    </div>
+    <div class="col-md-1">
+        <input type="number" name="namDen" value="@Model.NamXuatBanDen" class="form-control" placeholder="Năm đến" />
+    </div>
+    <div class="col-md-2">
+        <select name="sapXep" class="form-select">
+            <option value="">-- Sắp xếp --</option>
+            <option value="ten_az" selected="@(Model.SapXep == "ten_az")">Tên A→Z</option>
+            <option value="ten_za" selected="@(Model.SapXep == "ten_za")">Tên Z→A</option>
+            <option value="nam_tang" selected="@(Model.SapXep == "nam_tang")">Năm ↑</option>
+            <option value="nam_giam" selected="@(Model.SapXep == "nam_giam")">Năm ↓</option>
+            <option value="gia_tang" selected="@(Model.SapXep == "gia_tang")">Giá ↑</option>
+            <option value="gia_giam" selected="@(Model.SapXep == "gia_giam")">Giá ↓</option>
+        </select>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-success">Tìm / Lọc</button>
+        <a asp-action="Index" class="btn btn-secondary">Xóa lọc</a>
+    </div>
+</form>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã</th>
+            <th>Tên sách</th>
+            <th>Thể loại</th>
+            <th>Tác giả</th>
+            <th>NXB</th>
+            <th>Năm</th>
+            <th>Giá</th>
+            <th>SL</th>
+            <th>Còn</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.DanhSachSach.Count == 0)
+        {
+            <tr><td colspan="11" class="text-center">Không có sách nào.</td></tr>
+        }
+        else
+        {
+            @foreach (var s in Model.DanhSachSach)
+            {
+                <tr>
+                    <td>@s.MaSach</td>
+                    <td>@s.TenSach</td>
+                    <td>@s.TheLoai?.TenTheLoai</td>
+                    <td>@s.TacGia</td>
+                    <td>@s.NhaXuatBan</td>
+                    <td>@s.NamXuatBan</td>
+                    <td>@s.GiaSach.ToString("N0") đ</td>
+                    <td>@s.SoLuong</td>
+                    <td>@s.SoLuongCon</td>
+                    <td>@(s.TrangThai == 0 ? "Đang phục vụ" : s.TrangThai == 1 ? "Tạm ngừng" : "Ngừng phục vụ")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@s.MaSach" class="btn btn-sm btn-info">Xem</a>
+                        <a asp-action="Edit" asp-route-id="@s.MaSach" class="btn btn-sm btn-warning">Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@s.MaSach" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@if (Model.TongSoTrang > 1)
+{
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.TrangHienTai == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-tuKhoa="@Model.TuKhoa" asp-route-maTheLoai="@Model.MaTheLoai"
+                   asp-route-nhaXuatBan="@Model.NhaXuatBan" asp-route-trangThai="@Model.TrangThai"
+                   asp-route-namTu="@Model.NamXuatBanTu" asp-route-namDen="@Model.NamXuatBanDen"
+                   asp-route-sapXep="@Model.SapXep" asp-route-trang="@(Model.TrangHienTai - 1)">«</a>
+            </li>
+            @for (int i = 1; i <= Model.TongSoTrang; i++)
+            {
+                <li class="page-item @(i == Model.TrangHienTai ? "active" : "")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-tuKhoa="@Model.TuKhoa" asp-route-maTheLoai="@Model.MaTheLoai"
+                       asp-route-nhaXuatBan="@Model.NhaXuatBan" asp-route-trangThai="@Model.TrangThai"
+                       asp-route-namTu="@Model.NamXuatBanTu" asp-route-namDen="@Model.NamXuatBanDen"
+                       asp-route-sapXep="@Model.SapXep" asp-route-trang="@i">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.TrangHienTai == Model.TongSoTrang ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-tuKhoa="@Model.TuKhoa" asp-route-maTheLoai="@Model.MaTheLoai"
+                   asp-route-nhaXuatBan="@Model.NhaXuatBan" asp-route-trangThai="@Model.TrangThai"
+                   asp-route-namTu="@Model.NamXuatBanTu" asp-route-namDen="@Model.NamXuatBanDen"
+                   asp-route-sapXep="@Model.SapXep" asp-route-trang="@(Model.TrangHienTai + 1)">»</a>
+            </li>
+        </ul>
+    </nav>
+}
