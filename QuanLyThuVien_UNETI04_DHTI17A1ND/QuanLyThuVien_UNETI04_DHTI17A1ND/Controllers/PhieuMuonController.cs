@@ -19,9 +19,18 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
             _context = context;
         }
 
-        // GET: /PhieuMuon
-        public async Task<IActionResult> Index(string? tenDocGia, int? trangThai, DateTime? tuNgay, DateTime? denNgay)
+        // Kiểm tra quyền Admin (dùng Session key do Module 1 set)
+        private bool IsAdmin()
         {
+            return HttpContext.Session.GetString("VaiTro") == "Admin";
+        }
+
+        // GET: /PhieuMuon
+        public async Task<IActionResult> Index(string? tenDocGia, int? trangThai,
+                                               DateTime? tuNgay, DateTime? denNgay)
+        {
+            if (!IsAdmin()) return RedirectToAction("Login", "Account");
+
             var query = _context.PhieuMuons
                 .Include(p => p.DocGia)
                 .Include(p => p.ChiTietPhieuMuons)
@@ -61,6 +70,7 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         // GET: /PhieuMuon/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!IsAdmin()) return RedirectToAction("Login", "Account");
             if (id == null) return NotFound();
 
             var phieuMuon = await _context.PhieuMuons
@@ -79,6 +89,8 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> XacNhanMuon(int id)
         {
+            if (!IsAdmin()) return RedirectToAction("Login", "Account");
+
             var phieuMuon = await _context.PhieuMuons
                 .Include(p => p.ChiTietPhieuMuons)
                     .ThenInclude(ct => ct.Sach)
@@ -96,6 +108,7 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
                 return RedirectToAction(nameof(Details), new { id });
             }
 
+            // Kiểm tra tồn kho và trạng thái sách
             foreach (var ct in phieuMuon.ChiTietPhieuMuons ?? new List<ChiTietPhieuMuon>())
             {
                 if (ct.Sach == null) continue;
@@ -113,13 +126,14 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
                 }
             }
 
+            // Trừ tồn kho
             foreach (var ct in phieuMuon.ChiTietPhieuMuons ?? new List<ChiTietPhieuMuon>())
             {
                 if (ct.Sach == null) continue;
                 ct.Sach.SoLuongCon -= ct.SoLuongMuon;
             }
 
-            phieuMuon.TrangThai = 1;
+            phieuMuon.TrangThai = 1; // Đang mượn
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Đã xác nhận mượn sách.";
@@ -131,6 +145,8 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> HuyPhieu(int id)
         {
+            if (!IsAdmin()) return RedirectToAction("Login", "Account");
+
             var phieuMuon = await _context.PhieuMuons.FindAsync(id);
             if (phieuMuon == null)
             {
@@ -144,7 +160,7 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
                 return RedirectToAction(nameof(Details), new { id });
             }
 
-            phieuMuon.TrangThai = 3;
+            phieuMuon.TrangThai = 3; // Đã hủy
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Đã hủy phiếu mượn.";
@@ -152,9 +168,9 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         }
 
         // GET: /PhieuMuon/TraSach/5
-        // Form ghi nhận trả sách
         public async Task<IActionResult> TraSach(int? id)
         {
+            if (!IsAdmin()) return RedirectToAction("Login", "Account");
             if (id == null) return NotFound();
 
             var phieuMuon = await _context.PhieuMuons
@@ -197,6 +213,8 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TraSach(int id, TraSachViewModel vm)
         {
+            if (!IsAdmin()) return RedirectToAction("Login", "Account");
+
             var phieuMuon = await _context.PhieuMuons
                 .Include(p => p.ChiTietPhieuMuons)
                     .ThenInclude(ct => ct.Sach)
@@ -238,11 +256,28 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
                 }
             }
 
-            phieuMuon.TrangThai = 2;
+            phieuMuon.TrangThai = 2; // Đã trả
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Đã ghi nhận trả sách.";
             return RedirectToAction(nameof(Details), new { id });
+        }
+
+        // GET: /PhieuMuon/QuaHan
+        public async Task<IActionResult> QuaHan()
+        {
+            if (!IsAdmin()) return RedirectToAction("Login", "Account");
+
+            var today = DateTime.Now.Date;
+            var quaHan = await _context.PhieuMuons
+                .Include(p => p.DocGia)
+                .Include(p => p.ChiTietPhieuMuons)
+                    .ThenInclude(ct => ct.Sach)
+                .Where(p => p.TrangThai == 1 && p.HanTra < today)
+                .OrderBy(p => p.HanTra)
+                .ToListAsync();
+
+            return View(quaHan);
         }
     }
 }

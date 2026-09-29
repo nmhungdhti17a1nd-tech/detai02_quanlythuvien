@@ -4,56 +4,72 @@
 
 @model IEnumerable<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.PhieuMuon>
 @{
-    ViewData["Title"] = "Danh sách phiếu mượn";
-    var trangThaiList = new Dictionary<int, string>
+    ViewData["Title"] = "Quản lý phiếu mượn";
+
+    // Helper hiển thị trạng thái
+    string GetTrangThaiText(int tt) => tt switch
     {
-        { 0, "Chờ xác nhận" },
-        { 1, "Đang mượn" },
-        { 2, "Đã trả" },
-        { 3, "Đã hủy" }
+        0 => "Chờ xác nhận",
+        1 => "Đang mượn",
+        2 => "Đã trả",
+        3 => "Đã hủy",
+        _ => "?"
+    };
+
+    string GetTrangThaiBadge(int tt) => tt switch
+    {
+        0 => "bg-warning text-dark",
+        1 => "bg-primary",
+        2 => "bg-success",
+        3 => "bg-secondary",
+        _ => "bg-secondary"
     };
 }
 
-<h2>Danh sách phiếu mượn</h2>
+<h2>Quản lý phiếu mượn</h2>
 
 @if (TempData["Success"] != null)
 {
-    <div class="alert alert-success">@TempData["Success"]</div>
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
 }
 
-<form method="get" class="row g-2 mb-3">
+<form method="get" asp-action="Index" class="row g-3 mb-3">
     <div class="col-md-3">
         <label class="form-label">Tên độc giả</label>
-        <input type="text" name="tenDocGia" value="@ViewBag.TenDocGia" class="form-control" placeholder="Nhập tên..." />
+        <input type="text" name="tenDocGia" class="form-control"
+               placeholder="Nhập tên độc giả..." value="@ViewBag.TenDocGia" />
     </div>
     <div class="col-md-2">
         <label class="form-label">Trạng thái</label>
         <select name="trangThai" class="form-select">
             <option value="">-- Tất cả --</option>
-            @foreach (var item in trangThaiList)
-            {
-                if (ViewBag.TrangThai != null && (int)ViewBag.TrangThai == item.Key)
-                {
-                    <option value="@item.Key" selected>@item.Value</option>
-                }
-                else
-                {
-                    <option value="@item.Key">@item.Value</option>
-                }
-            }
+            <option value="0" selected="@(ViewBag.TrangThai == 0)">Chờ xác nhận</option>
+            <option value="1" selected="@(ViewBag.TrangThai == 1)">Đang mượn</option>
+            <option value="2" selected="@(ViewBag.TrangThai == 2)">Đã trả</option>
+            <option value="3" selected="@(ViewBag.TrangThai == 3)">Đã hủy</option>
         </select>
     </div>
     <div class="col-md-2">
         <label class="form-label">Từ ngày</label>
-        <input type="date" name="tuNgay" value="@ViewBag.TuNgay" class="form-control" />
+        <input type="date" name="tuNgay" class="form-control" value="@ViewBag.TuNgay" />
     </div>
     <div class="col-md-2">
         <label class="form-label">Đến ngày</label>
-        <input type="date" name="denNgay" value="@ViewBag.DenNgay" class="form-control" />
+        <input type="date" name="denNgay" class="form-control" value="@ViewBag.DenNgay" />
     </div>
-    <div class="col-md-3 d-flex align-items-end gap-2">
-        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-        <a href="/PhieuMuon" class="btn btn-secondary">Xóa lọc</a>
+    <div class="col-md-3 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary me-2">Tìm kiếm</button>
+        <a asp-action="Index" class="btn btn-secondary">Reset</a>
     </div>
 </form>
 
@@ -64,49 +80,54 @@
             <th>Độc giả</th>
             <th>Ngày mượn</th>
             <th>Hạn trả</th>
-            <th>Số sách</th>
             <th>Trạng thái</th>
-            <th>Thao tác</th>
+            <th style="width: 220px;">Thao tác</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model != null && Model.Any())
+        @if (!Model.Any())
         {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.MaPhieuMuon</td>
-                    <td>@item.DocGia?.HoTen</td>
-                    <td>@item.NgayMuon.ToString("dd/MM/yyyy")</td>
-                    <td>@item.HanTra.ToString("dd/MM/yyyy")</td>
-                    <td>@(item.ChiTietPhieuMuons?.Count ?? 0)</td>
-                    <td>
-                        @switch (item.TrangThai)
-                        {
-                            case 0:
-                                <span class="badge bg-warning text-dark">Chờ xác nhận</span>
-                                break;
-                            case 1:
-                                <span class="badge bg-primary">Đang mượn</span>
-                                break;
-                            case 2:
-                                <span class="badge bg-success">Đã trả</span>
-                                break;
-                            case 3:
-                                <span class="badge bg-secondary">Đã hủy</span>
-                                break;
-                        }
-                    </td>
-                    <td>
-                        <a href="/PhieuMuon/Details/@item.MaPhieuMuon" class="btn btn-sm btn-info">Chi tiết</a>
-                    </td>
-                </tr>
-            }
+            <tr><td colspan="6" class="text-center text-muted">Không có phiếu mượn nào.</td></tr>
         }
-        else
+        @foreach (var item in Model)
         {
             <tr>
-                <td colspan="7" class="text-center">Không có phiếu mượn nào.</td>
+                <td>@item.MaPhieuMuon</td>
+                <td>@item.DocGia?.HoTen</td>
+                <td>@item.NgayMuon.ToString("dd/MM/yyyy")</td>
+                <td>@item.HanTra.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <span class="badge @GetTrangThaiBadge(item.TrangThai)">
+                        @GetTrangThaiText(item.TrangThai)
+                    </span>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.MaPhieuMuon"
+                       class="btn btn-info btn-sm">Chi tiết</a>
+
+                    @if (item.TrangThai == 0)
+                    {
+                        <form asp-action="XacNhanMuon" asp-route-id="@item.MaPhieuMuon"
+                              method="post" class="d-inline">
+                            <button type="submit" class="btn btn-success btn-sm"
+                                    onclick="return confirm('Xác nhận mượn phiếu này?')">
+                                Xác nhận
+                            </button>
+                        </form>
+                        <form asp-action="HuyPhieu" asp-route-id="@item.MaPhieuMuon"
+                              method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Hủy phiếu này?')">
+                                Hủy
+                            </button>
+                        </form>
+                    }
+                    @if (item.TrangThai == 1)
+                    {
+                        <a asp-action="TraSach" asp-route-id="@item.MaPhieuMuon"
+                           class="btn btn-warning btn-sm">Trả sách</a>
+                    }
+                </td>
             </tr>
         }
     </tbody>

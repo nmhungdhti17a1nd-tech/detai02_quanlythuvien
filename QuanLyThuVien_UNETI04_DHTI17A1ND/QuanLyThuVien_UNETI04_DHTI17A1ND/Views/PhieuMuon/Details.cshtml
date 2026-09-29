@@ -5,6 +5,15 @@
 @model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.PhieuMuon
 @{
     ViewData["Title"] = "Chi tiết phiếu mượn";
+
+    string GetTrangThaiText(int tt) => tt switch
+    {
+        0 => "Chờ xác nhận",
+        1 => "Đang mượn",
+        2 => "Đã trả",
+        3 => "Đã hủy",
+        _ => "?"
+    };
 }
 
 <h2>Chi tiết phiếu mượn #@Model.MaPhieuMuon</h2>
@@ -20,119 +29,63 @@
 
 <div class="card mb-3">
     <div class="card-body">
-        <h5 class="card-title">Thông tin độc giả</h5>
-        <dl class="row mb-0">
-            <dt class="col-sm-3">Họ tên</dt>
-            <dd class="col-sm-9">@Model.DocGia?.HoTen</dd>
-
-            <dt class="col-sm-3">Số điện thoại</dt>
-            <dd class="col-sm-9">@Model.DocGia?.SoDienThoai</dd>
-
-            <dt class="col-sm-3">Email</dt>
-            <dd class="col-sm-9">@Model.DocGia?.Email</dd>
-        </dl>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Độc giả:</strong> @Model.DocGia?.HoTen</p>
+                <p><strong>Ngày mượn:</strong> @Model.NgayMuon.ToString("dd/MM/yyyy")</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Hạn trả:</strong> @Model.HanTra.ToString("dd/MM/yyyy")</p>
+                <p><strong>Trạng thái:</strong> <span class="badge bg-info">@GetTrangThaiText(Model.TrangThai)</span></p>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <h5 class="card-title">Thông tin phiếu mượn</h5>
-        <dl class="row mb-0">
-            <dt class="col-sm-3">Ngày mượn</dt>
-            <dd class="col-sm-9">@Model.NgayMuon.ToString("dd/MM/yyyy")</dd>
-
-            <dt class="col-sm-3">Hạn trả</dt>
-            <dd class="col-sm-9">@Model.HanTra.ToString("dd/MM/yyyy")</dd>
-
-            <dt class="col-sm-3">Trạng thái</dt>
-            <dd class="col-sm-9">
-                @switch (Model.TrangThai)
-                {
-                    case 0:
-                        <span class="badge bg-warning text-dark">Chờ xác nhận</span>
-                        break;
-                    case 1:
-                        <span class="badge bg-primary">Đang mượn</span>
-                        break;
-                    case 2:
-                        <span class="badge bg-success">Đã trả</span>
-                        break;
-                    case 3:
-                        <span class="badge bg-secondary">Đã hủy</span>
-                        break;
-                }
-            </dd>
-        </dl>
-    </div>
-</div>
-
-<div class="card mb-3">
-    <div class="card-body">
-        <h5 class="card-title">Danh sách sách mượn</h5>
-        <table class="table table-bordered mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th>STT</th>
-                    <th>Tên sách</th>
-                    <th>Tác giả</th>
-                    <th>Số lượng mượn</th>
-                    <th>Ngày trả</th>
-                    <th>Tình trạng trả</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.ChiTietPhieuMuons != null && Model.ChiTietPhieuMuons.Any())
-                {
-                    var stt = 1;
-                    foreach (var ct in Model.ChiTietPhieuMuons)
-                    {
-                        <tr>
-                            <td>@stt</td>
-                            <td>@ct.Sach?.TenSach</td>
-                            <td>@ct.Sach?.TacGia</td>
-                            <td>@ct.SoLuongMuon</td>
-                            <td>@(ct.NgayTra?.ToString("dd/MM/yyyy") ?? "Chưa trả")</td>
-                            <td>@(ct.TinhTrangTra ?? "—")</td>
-                        </tr>
-                        stt++;
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="6" class="text-center">Chưa có sách nào trong phiếu.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+<h4>Danh sách sách mượn</h4>
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Tên sách</th>
+            <th>Tác giả</th>
+            <th>Số lượng mượn</th>
+            <th>Ngày trả</th>
+            <th>Tình trạng trả</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ct in Model.ChiTietPhieuMuons ?? new List<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.ChiTietPhieuMuon>())
+        {
+            <tr>
+                <td>@ct.Sach?.TenSach</td>
+                <td>@ct.Sach?.TacGia</td>
+                <td>@ct.SoLuongMuon</td>
+                <td>@(ct.NgayTra?.ToString("dd/MM/yyyy") ?? "Chưa trả")</td>
+                <td>@(ct.TinhTrangTra ?? "—")</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <div class="mt-3">
     @if (Model.TrangThai == 0)
     {
         <form asp-action="XacNhanMuon" asp-route-id="@Model.MaPhieuMuon" method="post" class="d-inline">
-            @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-success"
-                    onclick="return confirm('Xác nhận mượn sách cho phiếu này?');">
+                    onclick="return confirm('Xác nhận mượn phiếu này?')">
                 Xác nhận mượn
             </button>
         </form>
-
         <form asp-action="HuyPhieu" asp-route-id="@Model.MaPhieuMuon" method="post" class="d-inline">
-            @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-danger"
-                    onclick="return confirm('Hủy phiếu mượn này?');">
+                    onclick="return confirm('Hủy phiếu này?')">
                 Hủy phiếu
             </button>
         </form>
     }
-    else if (Model.TrangThai == 1)
+    @if (Model.TrangThai == 1)
     {
-        <a href="/PhieuMuon/TraSach/@Model.MaPhieuMuon" class="btn btn-primary">
-            Trả sách
-        </a>
+        <a asp-action="TraSach" asp-route-id="@Model.MaPhieuMuon" class="btn btn-warning">Trả sách</a>
     }
-
-    <a href="/PhieuMuon" class="btn btn-secondary">Quay lại danh sách</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </div>
