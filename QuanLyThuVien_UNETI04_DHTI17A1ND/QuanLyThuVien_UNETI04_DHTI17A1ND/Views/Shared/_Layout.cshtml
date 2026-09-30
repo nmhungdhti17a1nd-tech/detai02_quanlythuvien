@@ -23,7 +23,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <!-- Menu bên trái -->
+                                       <!-- Menu bên trái -->
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
@@ -35,12 +35,29 @@
                                 <i class="bi bi-book"></i> Sách
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
-                                <i class="bi bi-info-circle"></i> Giới thiệu
-                            </a>
-                        </li>
-                    </ul>
+
+                    
+
+                        @if (Context.Session.GetString("VaiTro") == "DocGia")
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="dropdownDocGia" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person"></i> Cá nhân
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownDocGia">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="MuonSach" asp-action="DangMuon">
+                                            <i class="bi bi-journal-check"></i> Sách đang mượn
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="MuonSach" asp-action="LichSu">
+                                            <i class="bi bi-clock-history"></i> Lịch sử mượn
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }</ul>
 
                     <!-- Menu bên phải -->
                     <ul class="navbar-nav">
