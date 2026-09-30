@@ -1,0 +1,120 @@
+@* Họ và tên: Nguyễn Văn Hùng *@
+@* Mã sinh viên: [MSSV Văn Hùng] *@
+@* Nội dung thực hiện: Module 3 - Danh sách độc giả (Admin): tìm kiếm, lọc, phân trang *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.DocGiaViewModel
+
+@{
+    ViewData["Title"] = "Quản lý độc giả";
+}
+
+<h3 class="mb-3">Quản lý độc giả</h3>
+
+@if (TempData["ThanhCong"] != null)
+{
+    <div class="alert alert-success">@TempData["ThanhCong"]</div>
+}
+@if (TempData["Loi"] != null)
+{
+    <div class="alert alert-danger">@TempData["Loi"]</div>
+}
+
+<form method="get" asp-action="Index" class="row g-2 mb-3">
+    <div class="col-md-5">
+        <input type="text" name="keyword" value="@Model.Keyword" class="form-control"
+               placeholder="Tìm theo họ tên, email hoặc số điện thoại..." />
+    </div>
+    <div class="col-md-3">
+        <select name="trangThai" class="form-select">
+            <option value="">Tất cả trạng thái</option>
+            <option value="true" selected="@(Model.TrangThai == true)">Hoạt động</option>
+            <option value="false" selected="@(Model.TrangThai == false)">Đã khóa</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Xóa lọc</a>
+    </div>
+</form>
+
+<p class="text-muted">Tìm thấy <strong>@Model.TotalItems</strong> độc giả.</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Ngày đăng ký</th>
+                <th>Trạng thái</th>
+                <th style="width:190px">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.DanhSach.Any())
+            {
+                <tr><td colspan="6" class="text-center text-muted">Không có độc giả nào phù hợp.</td></tr>
+            }
+            @foreach (var dg in Model.DanhSach)
+            {
+                <tr>
+                    <td>@dg.HoTen</td>
+                    <td>@dg.Email</td>
+                    <td>@dg.SoDienThoai</td>
+                    <td>@dg.NgayDangKy.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        @if (dg.TrangThai)
+                        {
+                            <span class="badge bg-success">Hoạt động</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Đã khóa</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@dg.MaDocGia"
+                           class="btn btn-sm btn-outline-primary">Chi tiết</a>
+
+                        <form asp-action="DoiTrangThai" method="post" class="d-inline"
+                              onsubmit="return confirm('@(dg.TrangThai ? "Khóa" : "Mở khóa") độc giả này?');">
+                            <input type="hidden" name="id" value="@dg.MaDocGia" />
+                            <input type="hidden" name="trangThai" value="@((!dg.TrangThai).ToString().ToLower())" />
+                            <input type="hidden" name="keyword" value="@Model.Keyword" />
+                            <input type="hidden" name="locTrangThai" value="@Model.TrangThai" />
+                            <input type="hidden" name="page" value="@Model.Page" />
+                            <button type="submit"
+                                    class="btn btn-sm @(dg.TrangThai ? "btn-outline-danger" : "btn-outline-success")">
+                                @(dg.TrangThai ? "Khóa" : "Mở khóa")
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page - 1)"
+                   asp-route-keyword="@Model.Keyword" asp-route-trangThai="@Model.TrangThai">«</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i"
+                       asp-route-keyword="@Model.Keyword" asp-route-trangThai="@Model.TrangThai">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.Page == Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page + 1)"
+                   asp-route-keyword="@Model.Keyword" asp-route-trangThai="@Model.TrangThai">»</a>
+            </li>
+        </ul>
+    </nav>
+}

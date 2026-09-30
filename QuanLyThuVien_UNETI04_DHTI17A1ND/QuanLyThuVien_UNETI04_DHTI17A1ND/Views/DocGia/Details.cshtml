@@ -1,0 +1,84 @@
+@* Họ và tên: Nguyễn Văn Hùng *@
+@* Mã sinh viên: [MSSV Văn Hùng] *@
+@* Nội dung thực hiện: Module 3 - Chi tiết độc giả (Admin) *@
+
+@using QuanLyThuVien_UNETI04_DHTI17A1ND.Helpers
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.DocGia
+
+@{
+    ViewData["Title"] = "Chi tiết độc giả";
+}
+
+<h3 class="mb-3">Chi tiết độc giả</h3>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Họ tên</dt>
+            <dd class="col-sm-9">@Model.HoTen</dd>
+
+            <dt class="col-sm-3">Tên đăng nhập</dt>
+            <dd class="col-sm-9">@Model.TaiKhoan?.TenDangNhap</dd>
+
+            <dt class="col-sm-3">Ngày sinh</dt>
+            <dd class="col-sm-9">@(Model.NgaySinh?.ToString("dd/MM/yyyy") ?? "Chưa cập nhật")</dd>
+
+            <dt class="col-sm-3">Giới tính</dt>
+            <dd class="col-sm-9">@(Model.GioiTinh ?? "Chưa cập nhật")</dd>
+
+            <dt class="col-sm-3">Số điện thoại</dt>
+            <dd class="col-sm-9">@(Model.SoDienThoai ?? "Chưa cập nhật")</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@(Model.Email ?? "Chưa cập nhật")</dd>
+
+            <dt class="col-sm-3">Địa chỉ</dt>
+            <dd class="col-sm-9">@(Model.DiaChi ?? "Chưa cập nhật")</dd>
+
+            <dt class="col-sm-3">Ngày đăng ký</dt>
+            <dd class="col-sm-9">@Model.NgayDangKy.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Trạng thái</dt>
+            <dd class="col-sm-9">
+                @if (Model.TrangThai)
+                {
+                    <span class="badge bg-success">Hoạt động</span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">Đã khóa</span>
+                }
+            </dd>
+
+            <dt class="col-sm-3">Tổng số phiếu mượn</dt>
+            <dd class="col-sm-9">@ViewBag.TongSoPhieu</dd>
+        </dl>
+    </div>
+</div>
+
+<h5>5 phiếu mượn gần nhất</h5>
+@if (Model.PhieuMuons == null || !Model.PhieuMuons.Any())
+{
+    <p class="text-muted">Độc giả này chưa có phiếu mượn nào.</p>
+}
+else
+{
+    <table class="table table-bordered align-middle">
+        <thead class="table-light">
+            <tr><th>Mã phiếu</th><th>Ngày mượn</th><th>Hạn trả</th><th>Trạng thái</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.PhieuMuons)
+            {
+                <tr>
+                    <td>@p.MaPhieuMuon</td>
+                    <td>@p.NgayMuon.ToString("dd/MM/yyyy")</td>
+                    <td>@p.HanTra.ToString("dd/MM/yyyy")</td>
+                    <td><span class="badge @NhanTrangThai.MauPhieuMuon(p.TrangThai)">@NhanTrangThai.TenPhieuMuon(p.TrangThai)</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-outline-secondary">← Về danh sách</a>
