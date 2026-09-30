@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/QuanLyThuVien_UNETI04_DHTI17A1ND.styles.css" asp-append-version="true" />
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
 </head>
 <body>
@@ -23,7 +22,16 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <!-- Menu bên trái -->
+
+                    @{
+                        var vaiTro = Context.Session.GetString("VaiTro");
+                        var hoTen = Context.Session.GetString("HoTen");
+                        var daDangNhap = !string.IsNullOrEmpty(vaiTro);
+                        var laAdmin = vaiTro == "Admin";
+                        var laDocGia = vaiTro == "DocGia";
+                    }
+
+                    <!-- ===== MENU BÊN TRÁI ===== -->
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
@@ -35,6 +43,49 @@
                                 <i class="bi bi-book"></i> Sách
                             </a>
                         </li>
+
+                        @if (laAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="TheLoai" asp-action="Index">
+                                    <i class="bi bi-tags"></i> Thể loại
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="DocGia" asp-action="Index">
+                                    <i class="bi bi-people"></i> Độc giả
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="PhieuMuon" asp-action="Index">
+                                    <i class="bi bi-journal-check"></i> Phiếu mượn
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="PhieuMuon" asp-action="QuaHan">
+                                    <i class="bi bi-exclamation-triangle"></i> Quá hạn
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="ThongKe" asp-action="Index">
+                                    <i class="bi bi-bar-chart"></i> Thống kê
+                                </a>
+                            </li>
+                        }
+                        else if (laDocGia)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="MuonSach" asp-action="DangMuon">
+                                    <i class="bi bi-book-half"></i> Sách đang mượn
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="MuonSach" asp-action="LichSu">
+                                    <i class="bi bi-clock-history"></i> Lịch sử
+                                </a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
                                 <i class="bi bi-info-circle"></i> Giới thiệu
@@ -42,32 +93,33 @@
                         </li>
                     </ul>
 
-                    <!-- Menu bên phải -->
+                    <!-- ===== MENU BÊN PHẢI ===== -->
                     <ul class="navbar-nav">
-                        @if (Context.Session.GetString("VaiTro") != null)
+                        @if (!daDangNhap)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-dark">
-                                    <i class="bi bi-person-circle"></i>
-                                    Xin chào, <strong>@Context.Session.GetString("HoTen")</strong>
-                                </span>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">
+                                    <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">
-                                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">
+                                    <i class="bi bi-person-plus"></i> Đăng ký
                                 </a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">
-                                    <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
-                                </a>
+                                <span class="nav-link text-dark">
+                                    <i class="bi bi-person-circle"></i>
+                                    @hoTen
+                                    <span class="badge bg-secondary">@vaiTro</span>
+                                </span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">
-                                    <i class="bi bi-person-plus"></i> Đăng ký
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">
+                                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
                                 </a>
                             </li>
                         }
