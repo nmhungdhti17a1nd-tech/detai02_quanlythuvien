@@ -5,17 +5,17 @@ using QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels;
 
 namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
 {
-    public class TaiKhoanController : Controller
+    public class AccountController : Controller
     {
         private readonly AppDbContext _context;
 
-        public TaiKhoanController(AppDbContext context)
+        public AccountController(AppDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public IActionResult DangNhap()
+        public IActionResult Login()
         {
             if (HttpContext.Session.GetString("VaiTro") != null)
             {
@@ -26,7 +26,7 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DangNhap(LoginViewModel model)
+        public IActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -60,21 +60,21 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult DangXuat()
+        public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("DangNhap");
+            return RedirectToAction("Index" , "Home");
         }
 
         [HttpGet]
-        public IActionResult DangKy()
+        public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DangKy(RegisterViewModel model)
+        public IActionResult Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -114,7 +114,7 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
             _context.SaveChanges();
 
             TempData["Success"] = "Đăng ký thành công! Vui lòng đăng nhập.";
-            return RedirectToAction("DangNhap");
+            return RedirectToAction("Login");
         }
     }
 }

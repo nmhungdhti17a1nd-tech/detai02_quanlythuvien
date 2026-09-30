@@ -18,7 +18,7 @@
             <div class="alert alert-success">@TempData["Success"]</div>
         }
 
-        <form asp-action="DangNhap" method="post">
+        <form asp-action="Login" method="post">
             <div class="mb-3">
                 <label asp-for="TenDangNhap" class="form-label"></label>
                 <input asp-for="TenDangNhap" class="form-control" />
@@ -36,7 +36,7 @@
 
         <p class="text-center mt-3">
             Chưa có tài khoản?
-            <a asp-action="DangKy">Đăng ký ngay</a>
+            <a asp-action="Register">Đăng ký ngay</a>
         </p>
     </div>
 </div>
