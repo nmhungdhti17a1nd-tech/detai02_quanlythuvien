@@ -1,0 +1,50 @@
+@* Họ và tên: Nguyễn Văn Hùng *@
+@* Mã sinh viên: [MSSV Văn Hùng] *@
+@* Nội dung thực hiện: Module 3 - Form đăng ký mượn sách *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.DangKyMuonViewModel
+
+@{
+    ViewData["Title"] = "Đăng ký mượn sách";
+}
+
+<h3 class="mb-3">Đăng ký mượn sách</h3>
+
+<div class="card mb-3" style="max-width:600px">
+    <div class="card-body">
+        <h5 class="card-title">@Model.TenSach</h5>
+        <p class="mb-1"><strong>Tác giả:</strong> @Model.TacGia</p>
+        <p class="mb-1"><strong>Thể loại:</strong> @Model.TenTheLoai</p>
+        <p class="mb-0"><strong>Số lượng còn:</strong> @Model.SoLuongCon</p>
+    </div>
+</div>
+
+@if (Model.SoLuongCon <= 0)
+{
+    <div class="alert alert-warning" style="max-width:600px">Sách này hiện đã hết, chưa thể đăng ký mượn.</div>
+}
+
+<form asp-action="DangKy" method="post" style="max-width:600px">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <input type="hidden" asp-for="MaSach" />
+
+    <div class="mb-3">
+        <label asp-for="SoLuongMuon" class="form-label"></label>
+        <input asp-for="SoLuongMuon" type="number" min="1" max="@Model.SoLuongCon" class="form-control" />
+        <span asp-validation-for="SoLuongMuon" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SoNgayMuon" class="form-label"></label>
+        <input asp-for="SoNgayMuon" type="number" min="1" max="30" class="form-control" />
+        <span asp-validation-for="SoNgayMuon" class="text-danger"></span>
+        <div class="form-text">Hạn trả = ngày hôm nay + số ngày mượn (tối đa 30 ngày).</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" disabled="@(Model.SoLuongCon <= 0)">Gửi yêu cầu mượn</button>
+    <a asp-action="DangMuon" class="btn btn-outline-secondary">Xem sách đang mượn</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
