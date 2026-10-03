@@ -23,7 +23,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                                       <!-- Menu bên trái -->
+                    <!-- Menu bên trái -->
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
@@ -36,8 +36,45 @@
                             </a>
                         </li>
 
-                    
+                        @* Menu dropdown dành riêng cho Admin *@
+                        @if (Context.Session.GetString("VaiTro") == "Admin")
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="dropdownQuanLy" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-gear"></i> Quản lý
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownQuanLy">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="TheLoai" asp-action="Index">
+                                            <i class="bi bi-tags"></i> Thể loại
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="DocGia" asp-action="Index">
+                                            <i class="bi bi-people"></i> Độc giả
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="PhieuMuon" asp-action="Index">
+                                            <i class="bi bi-receipt"></i> Phiếu mượn
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Dashboard" asp-action="Index">
+                                            <i class="bi bi-speedometer2"></i> Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="ThongKe" asp-action="Index">
+                                            <i class="bi bi-bar-chart"></i> Thống kê
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
 
+                        @* Menu dropdown dành riêng cho Độc giả *@
                         @if (Context.Session.GetString("VaiTro") == "DocGia")
                         {
                             <li class="nav-item dropdown">
@@ -57,7 +94,14 @@
                                     </li>
                                 </ul>
                             </li>
-                        }</ul>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                <i class="bi bi-info-circle"></i> Giới thiệu
+                            </a>
+                        </li>
+                    </ul>
 
                     <!-- Menu bên phải -->
                     <ul class="navbar-nav">
