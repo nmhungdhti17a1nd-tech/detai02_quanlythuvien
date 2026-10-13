@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@* Họ và tên: Chu Công Đạt *@
+@* Mã sinh viên: [MSSV của bạn] *@
+@* Nội dung thực hiện: Module 1 - Layout menu theo vai trò *@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,7 +11,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/QuanLyThuVien_UNETI04_DHTI17A1ND.styles.css" asp-append-version="true" />
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
 </head>
 <body>
@@ -23,6 +25,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
                     <!-- Menu bên trái -->
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -74,28 +77,6 @@
                             </li>
                         }
 
-                        @* Menu dropdown dành riêng cho Độc giả *@
-                        @if (Context.Session.GetString("VaiTro") == "DocGia")
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="dropdownDocGia" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-person"></i> Cá nhân
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownDocGia">
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="MuonSach" asp-action="DangMuon">
-                                            <i class="bi bi-journal-check"></i> Sách đang mượn
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="MuonSach" asp-action="LichSu">
-                                            <i class="bi bi-clock-history"></i> Lịch sử mượn
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
                                 <i class="bi bi-info-circle"></i> Giới thiệu
@@ -105,8 +86,95 @@
 
                     <!-- Menu bên phải -->
                     <ul class="navbar-nav">
-                        @if (Context.Session.GetString("VaiTro") != null)
+                        @if (Context.Session.GetString("VaiTro") == "DocGia")
                         {
+                            @* Dropdown gọn cho Độc giả *@
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark"
+                                   href="#" id="dropdownUser" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle fs-5 me-1"></i>
+                                    <span>@Context.Session.GetString("HoTen")</span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-1"
+                                    aria-labelledby="dropdownUser"
+                                    style="min-width: 230px; border-radius: 10px;">
+
+                                    @* Header gọn *@
+                                    <li class="p-2 mb-1 bg-white rounded-2 shadow-sm border">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-person-circle text-primary" style="font-size: 2rem;"></i>
+                                            <div class="ms-2">
+                                                <strong class="d-block" style="font-size: 0.9rem;">@Context.Session.GetString("HoTen")</strong>
+                                                <small class="text-muted" style="font-size: 0.75rem;">Độc giả</small>
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-light w-100 fw-semibold rounded-2 d-flex align-items-center justify-content-center"
+                                           asp-controller="DocGia" asp-action="ThongTinCaNhan"
+                                           style="border: none; background-color: #e4e6eb; font-size: 0.8rem; padding: 4px;">
+                                            <i class="bi bi-person-circle me-1"></i>
+                                            Xem trang cá nhân
+                                        </a>
+                                    </li>
+
+                                    @* Menu items gọn *@
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center py-1 rounded-2"
+                                           asp-controller="MuonSach" asp-action="DangMuon"
+                                           style="font-size: 0.85rem;">
+                                            <span class="d-flex align-items-center justify-content-center rounded-circle bg-secondary bg-opacity-10 me-2"
+                                                  style="width: 28px; height: 28px;">
+                                                <i class="bi bi-journal-check" style="font-size: 0.9rem;"></i>
+                                            </span>
+                                            <span>Sách đang mượn</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center py-1 rounded-2"
+                                           asp-controller="MuonSach" asp-action="LichSu"
+                                           style="font-size: 0.85rem;">
+                                            <span class="d-flex align-items-center justify-content-center rounded-circle bg-secondary bg-opacity-10 me-2"
+                                                  style="width: 28px; height: 28px;">
+                                                <i class="bi bi-clock-history" style="font-size: 0.9rem;"></i>
+                                            </span>
+                                            <span>Lịch sử mượn</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center py-1 rounded-2"
+                                           asp-controller="DocGia" asp-action="ThongTinCaNhan"
+                                           style="font-size: 0.85rem;">
+                                            <span class="d-flex align-items-center justify-content-center rounded-circle bg-secondary bg-opacity-10 me-2"
+                                                  style="width: 28px; height: 28px;">
+                                                <i class="bi bi-gear" style="font-size: 0.9rem;"></i>
+                                            </span>
+                                            <span>Cài đặt thông tin</span>
+                                        </a>
+                                    </li>
+
+                                    <li><hr class="dropdown-divider my-1"></li>
+
+                                    @* Đăng xuất *@
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center py-1 rounded-2 text-danger"
+                                           asp-controller="Account" asp-action="Logout"
+                                           style="font-size: 0.85rem;">
+                                            <span class="d-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 me-2"
+                                                  style="width: 28px; height: 28px;">
+                                                <i class="bi bi-box-arrow-right text-danger" style="font-size: 0.9rem;"></i>
+                                            </span>
+                                            <span>Đăng xuất</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else if (Context.Session.GetString("VaiTro") == "Admin")
+                        {
+                            @* Admin: hiển thị đơn giản *@
                             <li class="nav-item">
                                 <span class="nav-link text-dark">
                                     <i class="bi bi-person-circle"></i>
@@ -114,20 +182,21 @@
                                 </span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">
                                     <i class="bi bi-box-arrow-right"></i> Đăng xuất
                                 </a>
                             </li>
                         }
                         else
                         {
+                            @* Chưa đăng nhập *@
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">
+                                <a class="btn btn-primary btn-sm mt-1 me-2" asp-controller="Account" asp-action="Login">
                                     <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">
+                                <a class="btn btn-outline-primary btn-sm mt-1" asp-controller="Account" asp-action="Register">
                                     <i class="bi bi-person-plus"></i> Đăng ký
                                 </a>
                             </li>
