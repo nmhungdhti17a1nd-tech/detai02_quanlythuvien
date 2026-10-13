@@ -1,0 +1,50 @@
+﻿@* Họ và tên: Chu Công Đạt *@
+@* Mã sinh viên: [MSSV của bạn] *@
+@* Nội dung thực hiện: Module 1 - Thêm thể loại *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.TheLoai
+
+@{
+    ViewData["Title"] = "Thêm thể loại";
+}
+
+<h2 class="mt-4">Thêm thể loại mới</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="TenTheLoai" class="form-label"></label>
+                <input asp-for="TenTheLoai" class="form-control" />
+                <span asp-validation-for="TenTheLoai" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MoTa" class="form-label"></label>
+                <textarea asp-for="MoTa" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="MoTa" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TrangThai" class="form-label"></label>
+                <select asp-for="TrangThai" class="form-select">
+                    <option value="true">Đang dùng</option>
+                    <option value="false">Ngừng dùng</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i> Lưu
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Quay lại
+            </a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

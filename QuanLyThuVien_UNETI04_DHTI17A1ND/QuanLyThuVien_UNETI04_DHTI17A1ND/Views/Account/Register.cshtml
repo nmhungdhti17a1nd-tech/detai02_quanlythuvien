@@ -1,4 +1,8 @@
-﻿@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.RegisterViewModel
+﻿@* Họ và tên: Chu Công Đạt *@
+@* Mã sinh viên: [MSSV của bạn] *@
+@* Nội dung thực hiện: Module 1 - Giao diện đăng ký *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.RegisterViewModel
 
 @{
     ViewData["Title"] = "Đăng ký";
@@ -8,46 +12,48 @@
 
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <form asp-action="Register" method="post">
+        <form asp-action="Register" method="post" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="mb-3">
                 <label asp-for="TenDangNhap" class="form-label"></label>
-                <input asp-for="TenDangNhap" class="form-control" />
+                <input asp-for="TenDangNhap" class="form-control" autocomplete="off" />
                 <span asp-validation-for="TenDangNhap" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="MatKhau" class="form-label"></label>
-                <input asp-for="MatKhau" class="form-control" />
+                <input asp-for="MatKhau" class="form-control" autocomplete="new-password" />
                 <span asp-validation-for="MatKhau" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="XacNhanMatKhau" class="form-label"></label>
-                <input asp-for="XacNhanMatKhau" class="form-control" />
+                <input asp-for="XacNhanMatKhau" class="form-control" autocomplete="new-password" />
                 <span asp-validation-for="XacNhanMatKhau" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="HoTen" class="form-label"></label>
-                <input asp-for="HoTen" class="form-control" />
+                <input asp-for="HoTen" class="form-control" autocomplete="off" />
                 <span asp-validation-for="HoTen" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" autocomplete="off" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="SoDienThoai" class="form-label"></label>
-                <input asp-for="SoDienThoai" class="form-control" />
+                <input asp-for="SoDienThoai" class="form-control" autocomplete="off" />
                 <span asp-validation-for="SoDienThoai" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="DiaChi" class="form-label"></label>
-                <input asp-for="DiaChi" class="form-control" />
+                <input asp-for="DiaChi" class="form-control" autocomplete="off" />
                 <span asp-validation-for="DiaChi" class="text-danger"></span>
             </div>
 
@@ -63,4 +69,14 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $.validator.setDefaults({
+                onkeyup: false,
+                onfocusout: false,
+                onclick: false
+            });
+        });
+    </script>
 }
