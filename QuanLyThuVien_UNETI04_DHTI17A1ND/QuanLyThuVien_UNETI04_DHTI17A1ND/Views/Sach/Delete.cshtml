@@ -1,0 +1,34 @@
+﻿@* Họ và tên: Vũ Duy Anh *@
+@* Mã sinh viên: 23203100073 *@
+@* Nội dung thực hiện: Xóa sách *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.Sach
+@{
+    ViewData["Title"] = "Xóa sách";
+}
+
+<h1>Xóa sách</h1>
+
+<h3>Bạn có chắc chắn muốn xóa sách này không?</h3>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Tên sách</dt>
+        <dd class="col-sm-9">@Model.TenSach</dd>
+
+        <dt class="col-sm-3">Thể loại</dt>
+        <dd class="col-sm-9">@Model.TheLoai?.TenTheLoai</dd>
+
+        <dt class="col-sm-3">Tác giả</dt>
+        <dd class="col-sm-9">@Model.TacGia</dd>
+
+        <dt class="col-sm-3">Giá sách</dt>
+        <dd class="col-sm-9">@Model.GiaSach.ToString("N0") đ</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="MaSach" />
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

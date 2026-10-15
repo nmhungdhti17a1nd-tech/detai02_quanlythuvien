@@ -1,0 +1,52 @@
+﻿@* Họ và tên: Vũ Duy Anh *@
+@* Mã sinh viên: 23203100073 *@
+@* Nội dung thực hiện: Chi tiết sách *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.Sach
+@{
+    ViewData["Title"] = "Chi tiết sách";
+}
+
+<h1>Chi tiết sách</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Mã sách</dt>
+    <dd class="col-sm-9">@Model.MaSach</dd>
+
+    <dt class="col-sm-3">Tên sách</dt>
+    <dd class="col-sm-9">@Model.TenSach</dd>
+
+    <dt class="col-sm-3">Thể loại</dt>
+    <dd class="col-sm-9">@Model.TheLoai?.TenTheLoai</dd>
+
+    <dt class="col-sm-3">Tác giả</dt>
+    <dd class="col-sm-9">@Model.TacGia</dd>
+
+    <dt class="col-sm-3">Nhà xuất bản</dt>
+    <dd class="col-sm-9">@Model.NhaXuatBan</dd>
+
+    <dt class="col-sm-3">Năm xuất bản</dt>
+    <dd class="col-sm-9">@Model.NamXuatBan</dd>
+
+    <dt class="col-sm-3">Số lượng</dt>
+    <dd class="col-sm-9">@Model.SoLuong</dd>
+
+    <dt class="col-sm-3">Số lượng còn</dt>
+    <dd class="col-sm-9">@Model.SoLuongCon</dd>
+
+    <dt class="col-sm-3">Giá sách</dt>
+    <dd class="col-sm-9">@Model.GiaSach.ToString("N0") đ</dd>
+
+    <dt class="col-sm-3">Mô tả</dt>
+    <dd class="col-sm-9">@Model.MoTa</dd>
+
+    <dt class="col-sm-3">Trạng thái</dt>
+    <dd class="col-sm-9">
+        @(Model.TrangThai == 0 ? "Đang phục vụ" : Model.TrangThai == 1 ? "Tạm ngừng" : "Ngừng phục vụ")
+    </dd>
+</dl>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.MaSach" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>
