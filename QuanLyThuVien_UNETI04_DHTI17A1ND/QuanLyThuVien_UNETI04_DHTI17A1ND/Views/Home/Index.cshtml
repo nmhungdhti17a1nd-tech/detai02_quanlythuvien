@@ -1,181 +1,150 @@
-﻿@{
+﻿@* Họ và tên: Nguyễn Mạnh Hùng *@
+@* Mã sinh viên: 23203100075 *@
+@* Nội dung thực hiện: Trang chủ - Hiển thị sách từ database *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.HomeViewModel
+
+@{
     ViewData["Title"] = "Trang chủ";
+    var vaiTro = Context.Session.GetString("VaiTro");
+    var hoTen = Context.Session.GetString("HoTen");
+    var daDangNhap = !string.IsNullOrEmpty(vaiTro);
+    var laAdmin = vaiTro == "Admin";
+    var laDocGia = vaiTro == "DocGia";
 }
 
 <!-- ===== BANNER ===== -->
-<div class="banner text-center text-white mb-5">
-    <div class="container py-5">
+<div class="text-center text-white mb-5"
+     style="background: linear-gradient(135deg, #1e3c72, #2a5298); padding: 50px 0;">
+    <div class="container py-4">
         <h1 class="display-4 fw-bold">Thư Viện UNETI</h1>
         <p class="lead">Khám phá kho tàng tri thức với hàng ngàn đầu sách</p>
-        <a href="#danh-sach-sach" class="btn btn-light btn-lg mt-3">
-            <i class="bi bi-book"></i> Xem sách ngay
-        </a>
+
+        @if (!daDangNhap)
+        {
+            <div class="mt-4">
+                <a asp-controller="Account" asp-action="Login" class="btn btn-light btn-lg me-2">
+                    Đăng nhập
+                </a>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-outline-light btn-lg">
+                    Đăng ký
+                </a>
+            </div>
+        }
+        else
+        {
+            <p class="mt-3 mb-3">
+                Xin chào, <strong>@hoTen</strong> (<span class="badge bg-warning text-dark">@vaiTro</span>)
+            </p>
+            <div>
+                @if (laAdmin)
+                {
+                    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-warning btn-lg me-2">Dashboard</a>
+                    <a asp-controller="PhieuMuon" asp-action="Index" class="btn btn-light btn-lg me-2">Phiếu mượn</a>
+                    <a asp-controller="ThongKe" asp-action="Index" class="btn btn-info btn-lg">Thống kê</a>
+                }
+                else if (laDocGia)
+                {
+                    <a asp-controller="MuonSach" asp-action="DangMuon" class="btn btn-light btn-lg me-2">Sách đang mượn</a>
+                    <a asp-controller="MuonSach" asp-action="LichSu" class="btn btn-outline-light btn-lg">Lịch sử mượn</a>
+                }
+                <a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-lg ms-2">Đăng xuất</a>
+            </div>
+        }
     </div>
 </div>
 
-<!-- ===== DANH SÁCH SÁCH NỔI BẬT ===== -->
-<div class="container mb-5" id="danh-sach-sach">
+<!-- ===== SÁCH NỔI BẬT (LẤY TỪ DB) ===== -->
+<div class="container mb-5">
     <h2 class="text-center mb-4">📚 Sách nổi bật</h2>
 
-    <div class="row">
-        <!-- Sách 1 -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x400?text=Sach+1"
-                     class="card-img-top" alt="Sách 1">
-                <div class="card-body">
-                    <h5 class="card-title">Tắt đèn</h5>
-                    <p class="card-text text-muted">Tác giả: Ngô Tất Tố</p>
-                    <p class="card-text">
-                        <span class="badge bg-success">Còn sách</span>
-                    </p>
-                    <p class="card-text fw-bold text-danger">50.000 VNĐ</p>
+    @if (!Model.SachNoiBat.Any())
+    {
+        <div class="alert alert-info text-center">
+            Chưa có sách nào trong thư viện.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var s in Model.SachNoiBat)
+            {
+                var sapHet = s.SoLuongCon > 0 && s.SoLuongCon <= 5;
+
+                var badgeText = sapHet ? "Sắp hết" : "Còn sách";
+                var badgeClass = sapHet ? "bg-warning text-dark" : "bg-success";
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://via.placeholder.com/300x400?text=@Uri.EscapeDataString(s.TenSach)"
+                             class="card-img-top" alt="@s.TenSach">
+                        <div class="card-body">
+                            <h5 class="card-title">@s.TenSach</h5>
+                            <p class="card-text text-muted mb-1">
+                                <small>Tác giả: @s.TacGia</small>
+                            </p>
+                            <p class="card-text text-muted mb-2">
+                                <small>Thể loại: @s.TheLoai?.TenTheLoai</small>
+                            </p>
+                            <p class="card-text">
+                                <span class="badge @badgeClass">@badgeText</span>
+                                <small class="text-muted">(còn @s.SoLuongCon cuốn)</small>
+                            </p>
+                            <p class="card-text fw-bold text-danger">
+                                @s.GiaSach.ToString("N0") VNĐ
+                            </p>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <a asp-controller="Sach" asp-action="Details" asp-route-id="@s.MaSach"
+                               class="btn btn-primary btn-sm">
+                                Xem chi tiết
+                            </a>
+
+                            @if (laDocGia)
+                            {
+                                <a asp-controller="MuonSach" asp-action="DangKy" asp-route-id="@s.MaSach"
+                                   class="btn btn-outline-success btn-sm">
+                                    Mượn sách
+                                </a>
+                            }
+                            else if (!daDangNhap)
+                            {
+                                <a asp-controller="Account" asp-action="Login"
+                                   class="btn btn-outline-success btn-sm">
+                                    Đăng nhập để mượn
+                                </a>
+                            }
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer bg-white">
-                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
-                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
-                </div>
-            </div>
+            }
         </div>
 
-        <!-- Sách 2 -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x400?text=Sach+2"
-                     class="card-img-top" alt="Sách 2">
-                <div class="card-body">
-                    <h5 class="card-title">Số đỏ</h5>
-                    <p class="card-text text-muted">Tác giả: Vũ Trọng Phụng</p>
-                    <p class="card-text">
-                        <span class="badge bg-success">Còn sách</span>
-                    </p>
-                    <p class="card-text fw-bold text-danger">60.000 VNĐ</p>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
-                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
-                </div>
-            </div>
+        <div class="text-center mt-3">
+            <a asp-controller="Sach" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                Xem tất cả sách
+            </a>
         </div>
-
-        <!-- Sách 3 -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x400?text=Sach+3"
-                     class="card-img-top" alt="Sách 3">
-                <div class="card-body">
-                    <h5 class="card-title">Lão Hạc</h5>
-                    <p class="card-text text-muted">Tác giả: Nam Cao</p>
-                    <p class="card-text">
-                        <span class="badge bg-warning text-dark">Sắp hết</span>
-                    </p>
-                    <p class="card-text fw-bold text-danger">45.000 VNĐ</p>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
-                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sách 4 -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x400?text=Sach+4"
-                     class="card-img-top" alt="Sách 4">
-                <div class="card-body">
-                    <h5 class="card-title">Chí Phèo</h5>
-                    <p class="card-text text-muted">Tác giả: Nam Cao</p>
-                    <p class="card-text">
-                        <span class="badge bg-success">Còn sách</span>
-                    </p>
-                    <p class="card-text fw-bold text-danger">55.000 VNĐ</p>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
-                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sách 5 -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x400?text=Sach+5"
-                     class="card-img-top" alt="Sách 5">
-                <div class="card-body">
-                    <h5 class="card-title">Dế Mèn Phiêu Lưu Ký</h5>
-                    <p class="card-text text-muted">Tác giả: Tô Hoài</p>
-                    <p class="card-text">
-                        <span class="badge bg-success">Còn sách</span>
-                    </p>
-                    <p class="card-text fw-bold text-danger">70.000 VNĐ</p>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
-                    <a href="#" class="btn btn-outline-success btn-sm">Mượn sách</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sách 6 -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x400?text=Sach+6"
-                     class="card-img-top" alt="Sách 6">
-                <div class="card-body">
-                    <h5 class="card-title">Những Người Khốn Khổ</h5>
-                    <p class="card-text text-muted">Tác giả: Victor Hugo</p>
-                    <p class="card-text">
-                        <span class="badge bg-danger">Hết sách</span>
-                    </p>
-                    <p class="card-text fw-bold text-danger">120.000 VNĐ</p>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
-                    <a href="#" class="btn btn-outline-secondary btn-sm disabled">Hết sách</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    }
 </div>
 
-<!-- ===== THÔNG TIN THƯ VIỆN ===== -->
-<div class="bg-light py-5 mb-5">
+<!-- ===== THÔNG TIN THƯ VIỆN (LẤY TỪ DB) ===== -->
+<div class="bg-light py-5">
     <div class="container">
         <h2 class="text-center mb-4">🏛️ Về thư viện</h2>
         <div class="row text-center">
             <div class="col-md-4">
-                <h3 class="text-primary">5000+</h3>
+                <h3 class="text-primary">@Model.TongDauSach</h3>
                 <p>Đầu sách</p>
             </div>
             <div class="col-md-4">
-                <h3 class="text-success">1000+</h3>
+                <h3 class="text-success">@Model.TongDocGia</h3>
                 <p>Độc giả</p>
             </div>
             <div class="col-md-4">
-                <h3 class="text-warning">24/7</h3>
-                <p>Hỗ trợ</p>
+                <h3 class="text-warning">@Model.TongTheLoai</h3>
+                <p>Thể loại</p>
             </div>
         </div>
     </div>
 </div>
-
-<!-- ===== FOOTER ===== -->
-<footer class="bg-dark text-white py-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h5>Thư Viện UNETI</h5>
-                <p>Hệ thống quản lý thư viện và mượn trả sách</p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <h5>Liên hệ</h5>
-                <p>Email: library@uneti.edu.vn</p>
-                <p>Điện thoại: 0123 456 789</p>
-            </div>
-        </div>
-        <hr>
-        <p class="text-center mb-0">© 2026 Thư Viện UNETI. All rights reserved.</p>
-    </div>
-</footer>

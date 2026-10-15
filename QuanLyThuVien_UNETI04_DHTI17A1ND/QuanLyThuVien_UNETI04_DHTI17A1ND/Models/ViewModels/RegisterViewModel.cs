@@ -11,14 +11,22 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels
         [Required(ErrorMessage = "Vui lòng nhập tên đăng nhập")]
         [StringLength(50, MinimumLength = 4, ErrorMessage = "Tên đăng nhập phải từ 4 đến 50 ký tự")]
         [RegularExpression(@"^[a-zA-Z0-9]+$",
+<<<<<<< HEAD
             ErrorMessage = "Tên đăng nhập chỉ được chứa chữ cái và số, KHÔNG dấu, KHÔNG khoảng trắng, KHÔNG ký tự đặc biệt")]
+=======
+            ErrorMessage = "Tên đăng nhập chỉ được chứa chữ cái và số, không dấu, không khoảng trắng, không ký tự đặc biệt")]
+>>>>>>> main
         [Display(Name = "Tên đăng nhập")]
         public string TenDangNhap { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
         [StringLength(255, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6 ký tự trở lên")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=])[A-Za-z\d@$!%*?&#^()_\-+=]{6,}$",
+<<<<<<< HEAD
             ErrorMessage = "Mật khẩu phải có ít nhất 1 chữ HOA, 1 chữ thường, 1 số và 1 ký tự đặc biệt")]
+=======
+            ErrorMessage = "Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt")]
+>>>>>>> main
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu")]
         public string MatKhau { get; set; } = string.Empty;
@@ -41,8 +49,13 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
+<<<<<<< HEAD
         [RegularExpression(@"^0\d{9}$",
             ErrorMessage = "Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0")]
+=======
+        [RegularExpression(@"^(0|\+84)\d{9}$",
+            ErrorMessage = "Số điện thoại phải có 10 chữ số (bắt đầu bằng 0) hoặc 11 ký tự (bắt đầu bằng +84)")]
+>>>>>>> main
         [StringLength(15)]
         [Display(Name = "Số điện thoại")]
         public string? SoDienThoai { get; set; }

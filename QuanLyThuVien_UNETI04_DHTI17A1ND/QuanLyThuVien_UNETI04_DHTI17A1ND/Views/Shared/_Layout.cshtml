@@ -26,7 +26,19 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
+<<<<<<< HEAD
                     <!-- Menu bên trái -->
+=======
+                    @{
+                        var vaiTro = Context.Session.GetString("VaiTro");
+                        var hoTen = Context.Session.GetString("HoTen");
+                        var daDangNhap = !string.IsNullOrEmpty(vaiTro);
+                        var laAdmin = vaiTro == "Admin";
+                        var laDocGia = vaiTro == "DocGia";
+                    }
+
+                    <!-- ===== MENU BÊN TRÁI ===== -->
+>>>>>>> main
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
@@ -39,8 +51,13 @@
                             </a>
                         </li>
 
+<<<<<<< HEAD
                         @* Menu dropdown dành riêng cho Admin *@
                         @if (Context.Session.GetString("VaiTro") == "Admin")
+=======
+                        @* Dropdown Quản lý — chỉ Admin *@
+                        @if (laAdmin)
+>>>>>>> main
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="dropdownQuanLy" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,16 +76,28 @@
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-controller="PhieuMuon" asp-action="Index">
+<<<<<<< HEAD
                                             <i class="bi bi-receipt"></i> Phiếu mượn
+=======
+                                            <i class="bi bi-journal-check"></i> Phiếu mượn
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="PhieuMuon" asp-action="QuaHan">
+                                            <i class="bi bi-exclamation-triangle"></i> Quá hạn
+>>>>>>> main
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
+<<<<<<< HEAD
                                         <a class="dropdown-item" asp-controller="Dashboard" asp-action="Index">
                                             <i class="bi bi-speedometer2"></i> Dashboard
                                         </a>
                                     </li>
                                     <li>
+=======
+>>>>>>> main
                                         <a class="dropdown-item" asp-controller="ThongKe" asp-action="Index">
                                             <i class="bi bi-bar-chart"></i> Thống kê
                                         </a>
@@ -77,6 +106,37 @@
                             </li>
                         }
 
+<<<<<<< HEAD
+=======
+                        @* Dropdown Cá nhân — chỉ Độc giả *@
+                        @if (laDocGia)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="dropdownCaNhan" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person"></i> Cá nhân
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownCaNhan">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="MuonSach" asp-action="DangMuon">
+                                            <i class="bi bi-book-half"></i> Sách đang mượn
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="MuonSach" asp-action="LichSu">
+                                            <i class="bi bi-clock-history"></i> Lịch sử mượn
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="DocGia" asp-action="ThongTinCaNhan">
+                                            <i class="bi bi-person-gear"></i> Thông tin cá nhân
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+>>>>>>> main
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
                                 <i class="bi bi-info-circle"></i> Giới thiệu
@@ -84,9 +144,13 @@
                         </li>
                     </ul>
 
-                    <!-- Menu bên phải -->
+                    <!-- ===== MENU BÊN PHẢI ===== -->
                     <ul class="navbar-nav">
+<<<<<<< HEAD
                         @if (Context.Session.GetString("VaiTro") == "DocGia")
+=======
+                        @if (!daDangNhap)
+>>>>>>> main
                         {
                             @* Dropdown gọn cho Độc giả *@
                             <li class="nav-item dropdown">
@@ -176,14 +240,18 @@
                         {
                             @* Admin: hiển thị đơn giản *@
                             <li class="nav-item">
-                                <span class="nav-link text-dark">
-                                    <i class="bi bi-person-circle"></i>
-                                    Xin chào, <strong>@Context.Session.GetString("HoTen")</strong>
-                                </span>
+                                <a class="btn btn-primary btn-sm mt-1 me-2" asp-controller="Account" asp-action="Login">
+                                    <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                                </a>
                             </li>
                             <li class="nav-item">
+<<<<<<< HEAD
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">
                                     <i class="bi bi-box-arrow-right"></i> Đăng xuất
+=======
+                                <a class="btn btn-outline-primary btn-sm mt-1" asp-controller="Account" asp-action="Register">
+                                    <i class="bi bi-person-plus"></i> Đăng ký
+>>>>>>> main
                                 </a>
                             </li>
                         }
@@ -191,6 +259,7 @@
                         {
                             @* Chưa đăng nhập *@
                             <li class="nav-item">
+<<<<<<< HEAD
                                 <a class="btn btn-primary btn-sm mt-1 me-2" asp-controller="Account" asp-action="Login">
                                     <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
                                 </a>
@@ -198,6 +267,17 @@
                             <li class="nav-item">
                                 <a class="btn btn-outline-primary btn-sm mt-1" asp-controller="Account" asp-action="Register">
                                     <i class="bi bi-person-plus"></i> Đăng ký
+=======
+                                <span class="nav-link text-dark">
+                                    <i class="bi bi-person-circle"></i>
+                                    @hoTen
+                                    <span class="badge bg-secondary">@vaiTro</span>
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">
+                                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+>>>>>>> main
                                 </a>
                             </li>
                         }

@@ -18,52 +18,78 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
             _context = context;
         }
 
+<<<<<<< HEAD
         // Hàm kiểm tra quyền Admin
+=======
+>>>>>>> main
         private bool IsAdmin()
         {
             return HttpContext.Session.GetString("VaiTro") == "Admin";
         }
 
+<<<<<<< HEAD
         // GET: /TheLoai
         public IActionResult Index()
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
 
+=======
+        public IActionResult Index()
+        {
+            if (!IsAdmin()) return RedirectToAction("Login", "Account");
+>>>>>>> main
             var danhSach = _context.TheLoais.ToList();
             return View(danhSach);
         }
 
+<<<<<<< HEAD
         // GET: /TheLoai/Details/5
+=======
+>>>>>>> main
         public IActionResult Details(int? id)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
             if (id == null) return NotFound();
 
+<<<<<<< HEAD
             var theLoai = _context.TheLoais
                 .FirstOrDefault(t => t.MaTheLoai == id);
 
+=======
+            var theLoai = _context.TheLoais.FirstOrDefault(t => t.MaTheLoai == id);
+>>>>>>> main
             if (theLoai == null) return NotFound();
 
             return View(theLoai);
         }
 
+<<<<<<< HEAD
         // GET: /TheLoai/Create
+=======
+>>>>>>> main
         public IActionResult Create()
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
             return View();
         }
 
+<<<<<<< HEAD
         // POST: /TheLoai/Create
+=======
+>>>>>>> main
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(TheLoai theLoai)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
 
+<<<<<<< HEAD
             var daTonTai = _context.TheLoais
                 .Any(t => t.TenTheLoai == theLoai.TenTheLoai);
 
+=======
+            var daTonTai = _context.TheLoais.Any(t => t.TenTheLoai == theLoai.TenTheLoai);
+>>>>>>> main
             if (daTonTai)
             {
                 ModelState.AddModelError("TenTheLoai", "Tên thể loại đã tồn tại");
@@ -77,11 +103,17 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
                 TempData["Success"] = "Thêm thể loại thành công!";
                 return RedirectToAction(nameof(Index));
             }
+<<<<<<< HEAD
 
             return View(theLoai);
         }
 
         // GET: /TheLoai/Edit/5
+=======
+            return View(theLoai);
+        }
+
+>>>>>>> main
         public IActionResult Edit(int? id)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
@@ -93,7 +125,10 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
             return View(theLoai);
         }
 
+<<<<<<< HEAD
         // POST: /TheLoai/Edit/5
+=======
+>>>>>>> main
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, TheLoai theLoai)
@@ -102,8 +137,12 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
             if (id != theLoai.MaTheLoai) return NotFound();
 
             var daTonTai = _context.TheLoais
+<<<<<<< HEAD
                 .Any(t => t.TenTheLoai == theLoai.TenTheLoai
                        && t.MaTheLoai != theLoai.MaTheLoai);
+=======
+                .Any(t => t.TenTheLoai == theLoai.TenTheLoai && t.MaTheLoai != theLoai.MaTheLoai);
+>>>>>>> main
 
             if (daTonTai)
             {
@@ -127,25 +166,38 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+<<<<<<< HEAD
 
             return View(theLoai);
         }
 
         // GET: /TheLoai/Delete/5
+=======
+            return View(theLoai);
+        }
+
+>>>>>>> main
         public IActionResult Delete(int? id)
         {
             if (!IsAdmin()) return RedirectToAction("Login", "Account");
             if (id == null) return NotFound();
 
+<<<<<<< HEAD
             var theLoai = _context.TheLoais
                 .FirstOrDefault(t => t.MaTheLoai == id);
 
+=======
+            var theLoai = _context.TheLoais.FirstOrDefault(t => t.MaTheLoai == id);
+>>>>>>> main
             if (theLoai == null) return NotFound();
 
             return View(theLoai);
         }
 
+<<<<<<< HEAD
         // POST: /TheLoai/Delete/5
+=======
+>>>>>>> main
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
@@ -155,7 +207,10 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
             var theLoai = _context.TheLoais.Find(id);
             if (theLoai == null) return NotFound();
 
+<<<<<<< HEAD
             // Kiểm tra còn sách thuộc thể loại này không
+=======
+>>>>>>> main
             var coSach = _context.Sachs.Any(s => s.MaTheLoai == id);
             if (coSach)
             {

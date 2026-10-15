@@ -1,0 +1,84 @@
+﻿@* Họ và tên: Nguyễn Mạnh Hùng *@
+@* Mã sinh viên: 23203100075 *@
+@* Nội dung thực hiện: Module 4 - Dashboard *@
+
+@model QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="mb-4">Dashboard - Tổng quan hệ thống</h2>
+
+<div class="row g-3">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6 class="card-title">Tổng đầu sách</h6>
+                <p class="display-6 mb-0">@Model.TongDauSach</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h6 class="card-title">Thể loại</h6>
+                <p class="display-6 mb-0">@Model.TongTheLoai</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Độc giả</h6>
+                <p class="display-6 mb-0">@Model.TongDocGia</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary">
+            <div class="card-body">
+                <h6 class="card-title">Tổng phiếu mượn</h6>
+                <p class="display-6 mb-0">@Model.TongPhieuMuon</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-dark bg-warning">
+            <div class="card-body">
+                <h6 class="card-title">Phiếu chờ xác nhận</h6>
+                <p class="display-6 mb-0">@Model.PhieuChoXacNhan</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6 class="card-title">Phiếu đang mượn</h6>
+                <p class="display-6 mb-0">@Model.PhieuDangMuon</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger">
+            <div class="card-body">
+                <h6 class="card-title">Phiếu quá hạn</h6>
+                <p class="display-6 mb-0">@Model.PhieuQuaHan</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Sách còn có thể mượn</h6>
+                <p class="display-6 mb-0">@Model.TongSachCoTheMuon</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-controller="PhieuMuon" asp-action="Index" class="btn btn-outline-primary">Quản lý phiếu mượn</a>
+    <a asp-controller="PhieuMuon" asp-action="QuaHan" class="btn btn-outline-danger">Xem phiếu quá hạn</a>
+    <a asp-controller="ThongKe" asp-action="Index" class="btn btn-outline-info">Xem thống kê</a>
+</div>

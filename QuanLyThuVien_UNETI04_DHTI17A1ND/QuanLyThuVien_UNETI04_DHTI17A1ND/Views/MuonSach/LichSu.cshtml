@@ -1,0 +1,15 @@
+@* Họ và tên: Nguyễn Văn Hùng *@
+@* Mã sinh viên: [MSSV Văn Hùng] *@
+@* Nội dung thực hiện: Module 3 - Độc giả xem lịch sử mượn trả *@
+
+@model List<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.PhieuMuon>
+
+@{
+    ViewData["Title"] = "Lịch sử mượn trả";
+}
+
+<h3 class="mb-3">Lịch sử mượn trả (@Model.Count)</h3>
+
+<partial name="_BangPhieuMuon" model="Model" />
+
+<a asp-action="DangMuon" class="btn btn-outline-secondary mt-2">← Sách đang mượn</a>

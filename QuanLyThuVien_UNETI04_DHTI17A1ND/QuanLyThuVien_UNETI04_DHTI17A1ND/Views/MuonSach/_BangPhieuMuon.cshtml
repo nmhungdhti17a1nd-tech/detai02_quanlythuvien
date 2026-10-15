@@ -1,0 +1,64 @@
+@* Họ và tên: Nguyễn Văn Hùng *@
+@* Mã sinh viên: [MSSV Văn Hùng] *@
+@* Nội dung thực hiện: Module 3 - Bảng phiếu mượn dùng chung cho trang "Sách của tôi" *@
+
+@using QuanLyThuVien_UNETI04_DHTI17A1ND.Helpers
+@model IEnumerable<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.PhieuMuon>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Không có dữ liệu.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Mã phiếu</th>
+                    <th>Sách mượn</th>
+                    <th>Ngày mượn</th>
+                    <th>Hạn trả</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    bool quaHan = p.TrangThai == 1 && p.HanTra.Date < DateTime.Today;
+                    <tr>
+                        <td>@p.MaPhieuMuon</td>
+                        <td>
+                            @if (p.ChiTietPhieuMuons != null)
+                            {
+                                foreach (var ct in p.ChiTietPhieuMuons)
+                                {
+                                    <div>
+                                        @ct.Sach?.TenSach × @ct.SoLuongMuon
+                                        @if (ct.NgayTra.HasValue)
+                                        {
+                                            <span class="text-muted">(đã trả @ct.NgayTra.Value.ToString("dd/MM/yyyy"))</span>
+                                        }
+                                    </div>
+                                }
+                            }
+                        </td>
+                        <td>@p.NgayMuon.ToString("dd/MM/yyyy")</td>
+                        <td class="@(quaHan ? "text-danger fw-bold" : "")">
+                            @p.HanTra.ToString("dd/MM/yyyy")
+                            @if (quaHan)
+                            {
+                                <span class="badge bg-danger">Quá hạn</span>
+                            }
+                        </td>
+                        <td>
+                            <span class="badge @NhanTrangThai.MauPhieuMuon(p.TrangThai)">
+                                @NhanTrangThai.TenPhieuMuon(p.TrangThai)
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
