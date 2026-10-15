@@ -1,0 +1,68 @@
+﻿@* Họ và tên: Chu Công Đạt *@
+@* Mã sinh viên: [MSSV của bạn] *@
+@* Nội dung thực hiện: Module 1 - Danh sách thể loại *@
+
+@model IEnumerable<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.TheLoai>
+
+@{
+    ViewData["Title"] = "Danh sách thể loại";
+}
+
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+    <h2><i class="bi bi-tags"></i> Danh sách thể loại</h2>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Thêm thể loại
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Mã</th>
+            <th>Tên thể loại</th>
+            <th>Mô tả</th>
+            <th>Trạng thái</th>
+            <th style="width: 240px;">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaTheLoai</td>
+                <td>@item.TenTheLoai</td>
+                <td>@item.MoTa</td>
+                <td>
+                    @if (item.TrangThai)
+                    {
+                        <span class="badge bg-success">Đang dùng</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Ngừng dùng</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.MaTheLoai" class="btn btn-sm btn-info">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@item.MaTheLoai" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.MaTheLoai" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

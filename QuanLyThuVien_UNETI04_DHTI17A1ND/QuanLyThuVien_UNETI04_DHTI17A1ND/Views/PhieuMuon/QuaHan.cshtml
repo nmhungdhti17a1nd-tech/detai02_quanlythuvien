@@ -1,0 +1,49 @@
+﻿@* Họ và tên: Nguyễn Mạnh Hùng *@
+@* Mã sinh viên: 23203100075 *@
+@* Nội dung thực hiện: Module 4 - Danh sách phiếu quá hạn *@
+
+@model IEnumerable<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.PhieuMuon>
+@{
+    ViewData["Title"] = "Phiếu quá hạn";
+}
+
+<h2>Danh sách phiếu mượn quá hạn</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Không có phiếu nào quá hạn.</div>
+}
+else
+{
+    <table class="table table-bordered table-danger">
+        <thead>
+            <tr>
+                <th>Mã phiếu</th>
+                <th>Độc giả</th>
+                <th>Ngày mượn</th>
+                <th>Hạn trả</th>
+                <th>Số ngày quá hạn</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var soNgay = (DateTime.Now.Date - item.HanTra.Date).Days;
+                <tr>
+                    <td>@item.MaPhieuMuon</td>
+                    <td>@item.DocGia?.HoTen</td>
+                    <td>@item.NgayMuon.ToString("dd/MM/yyyy")</td>
+                    <td>@item.HanTra.ToString("dd/MM/yyyy")</td>
+                    <td><strong class="text-danger">@soNgay ngày</strong></td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.MaPhieuMuon"
+                           class="btn btn-info btn-sm">Chi tiết</a>
+                        <a asp-action="TraSach" asp-route-id="@item.MaPhieuMuon"
+                           class="btn btn-warning btn-sm">Trả sách</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,135 @@
+﻿@* Họ và tên: Nguyễn Mạnh Hùng *@
+@* Mã sinh viên: 23203100075 *@
+@* Nội dung thực hiện: Module 4 - Thống kê *@
+
+@{
+    ViewData["Title"] = "Thống kê";
+
+    string GetTrangThaiText(int tt) => tt switch
+    {
+        0 => "Chờ xác nhận",
+        1 => "Đang mượn",
+        2 => "Đã trả",
+        3 => "Đã hủy",
+        _ => "?"
+    };
+}
+
+<h2 class="mb-4">Thống kê dữ liệu thư viện</h2>
+
+@* 1. Số đầu sách theo thể loại *@
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Số đầu sách theo thể loại</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr><th>Thể loại</th><th>Số đầu sách</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.ThongKeTheLoai as List<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.ThongKeTheLoaiViewModel> ?? new())
+                {
+                    <tr>
+                        <td>@item.TenTheLoai</td>
+                        <td>@item.SoLuongSach</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* 2. Top 10 độc giả mượn nhiều nhất *@
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Top 10 độc giả mượn nhiều nhất</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr><th>Độc giả</th><th>Số lượt mượn</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.ThongKeDocGia as List<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels.ThongKeDocGiaViewModel> ?? new())
+                {
+                    <tr>
+                        <td>@item.HoTen</td>
+                        <td>@item.SoLuotMuon</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* 3. Top 10 sách được mượn nhiều nhất *@
+<div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+        <h5 class="mb-0">Top 10 sách được mượn nhiều nhất</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr><th>Tên sách</th><th>Tổng lượt mượn</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.SachHot as IEnumerable<dynamic> ?? Enumerable.Empty<dynamic>())
+                {
+                    <tr>
+                        <td>@item.TenSach</td>
+                        <td>@item.TongLuotMuon</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* 4. Phiếu mượn theo tháng *@
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">Phiếu mượn theo tháng (năm @DateTime.Now.Year)</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr><th>Tháng</th><th>Số phiếu</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.PhieuTheoThang as IEnumerable<dynamic> ?? Enumerable.Empty<dynamic>())
+                {
+                    <tr>
+                        <td>Tháng @item.Thang</td>
+                        <td>@item.SoPhieu</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* 5. Phiếu theo trạng thái *@
+<div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Phiếu mượn theo trạng thái</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr><th>Trạng thái</th><th>Số lượng</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.PhieuTheoTrangThai as IEnumerable<dynamic> ?? Enumerable.Empty<dynamic>())
+                {
+                    <tr>
+                        <td>@GetTrangThaiText((int)item.TrangThai)</td>
+                        <td>@item.SoLuong</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary">Quay lại Dashboard</a>
