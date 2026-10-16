@@ -21,6 +21,12 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
             _context = context;
         }
 
+        // Kiểm tra quyền Admin
+        private bool IsAdmin()
+        {
+            return HttpContext.Session.GetString("VaiTro") == "Admin";
+        }
+
         // GET: Sach/Index (Tìm kiếm + Lọc + Sắp xếp + Phân trang)
         public async Task<IActionResult> Index(
             string? tuKhoa,
@@ -122,6 +128,9 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         // GET: Sach/Create
         public async Task<IActionResult> Create()
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
             await LoadViewBag();
             return View();
         }
@@ -132,6 +141,9 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         public async Task<IActionResult> Create(
             [Bind("TenSach,MaTheLoai,TacGia,NhaXuatBan,NamXuatBan,SoLuong,SoLuongCon,GiaSach,MoTa,TrangThai")] Sach sach)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
             if (sach.SoLuongCon > sach.SoLuong)
                 ModelState.AddModelError("SoLuongCon", "Số lượng còn không được vượt quá số lượng");
 
@@ -150,6 +162,9 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         // GET: Sach/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
             if (id == null) return NotFound();
 
             var sach = await _context.Sachs.FindAsync(id);
@@ -165,6 +180,9 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         public async Task<IActionResult> Edit(int id,
             [Bind("MaSach,TenSach,MaTheLoai,TacGia,NhaXuatBan,NamXuatBan,SoLuong,SoLuongCon,GiaSach,MoTa,TrangThai")] Sach sach)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
             if (id != sach.MaSach) return NotFound();
 
             if (sach.SoLuongCon > sach.SoLuong)
@@ -193,6 +211,9 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         // GET: Sach/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
             if (id == null) return NotFound();
 
             var sach = await _context.Sachs.Include(s => s.TheLoai)
@@ -208,6 +229,9 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+
             var sach = await _context.Sachs.FindAsync(id);
             if (sach != null)
             {

@@ -6,6 +6,8 @@
 
 @{
     ViewData["Title"] = "Danh sách sách";
+    var vaiTro = Context.Session.GetString("VaiTro");
+    var laAdmin = vaiTro == "Admin";
 }
 
 <h1>Danh sách sách</h1>
@@ -15,9 +17,12 @@
     <div class="alert alert-success">@TempData["Success"]</div>
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">+ Thêm sách mới</a>
-</p>
+@if (laAdmin)
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">+ Thêm sách mới</a>
+    </p>
+}
 
 <form method="get" asp-action="Index" id="filterForm" class="row g-2 mb-3">
     <div class="col-md-3">
@@ -77,7 +82,7 @@
             <th>SL</th>
             <th>Còn</th>
             <th>Trạng thái</th>
-            <th></th>
+            <th>Thao tác</th>
         </tr>
     </thead>
     <tbody>
@@ -102,8 +107,11 @@
                     <td>@(s.TrangThai == 0 ? "Đang phục vụ" : s.TrangThai == 1 ? "Tạm ngừng" : "Ngừng phục vụ")</td>
                     <td>
                         <a asp-action="Details" asp-route-id="@s.MaSach" class="btn btn-sm btn-info">Xem</a>
-                        <a asp-action="Edit" asp-route-id="@s.MaSach" class="btn btn-sm btn-warning">Sửa</a>
-                        <a asp-action="Delete" asp-route-id="@s.MaSach" class="btn btn-sm btn-danger">Xóa</a>
+                        @if (laAdmin)
+                        {
+                            <a asp-action="Edit" asp-route-id="@s.MaSach" class="btn btn-sm btn-warning">Sửa</a>
+                            <a asp-action="Delete" asp-route-id="@s.MaSach" class="btn btn-sm btn-danger">Xóa</a>
+                        }
                     </td>
                 </tr>
             }
