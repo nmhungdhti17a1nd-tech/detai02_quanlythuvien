@@ -76,8 +76,9 @@
 
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <img src="https://via.placeholder.com/300x400?text=@Uri.EscapeDataString(s.TenSach)"
-                             class="card-img-top" alt="@s.TenSach">
+                        <img src="/images/sach/@(s.MaSach).jpg"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x400?text=@Uri.EscapeDataString(s.TenSach)';"
+                             class="card-img-top" alt="@s.TenSach" style="height:300px; object-fit:cover;">
                         <div class="card-body">
                             <h5 class="card-title">@s.TenSach</h5>
                             <p class="card-text text-muted mb-1">
