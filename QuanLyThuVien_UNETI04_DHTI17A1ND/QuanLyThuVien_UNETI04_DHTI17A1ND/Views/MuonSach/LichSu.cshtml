@@ -1,5 +1,5 @@
 @* Họ và tên: Nguyễn Văn Hùng *@
-@* Mã sinh viên: [MSSV Văn Hùng] *@
+@* Mã sinh viên: 23203100079 *@
 @* Nội dung thực hiện: Module 3 - Độc giả xem lịch sử mượn trả *@
 
 @model List<QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities.PhieuMuon>
@@ -12,4 +12,11 @@
 
 <partial name="_BangPhieuMuon" model="Model" />
 
-<a asp-action="DangMuon" class="btn btn-outline-secondary mt-2">← Sách đang mượn</a>
+<div class="mt-3">
+    <a asp-action="DangMuon" class="btn btn-outline-secondary">Sách đang mượn</a>
+
+    <!-- Nút Quay lại trang trước đó -->
+    <button type="button" onclick="history.back()" class="btn btn-secondary ms-2">
+        <i class="bi bi-arrow-left"></i> Quay lại
+    </button>
+</div>
