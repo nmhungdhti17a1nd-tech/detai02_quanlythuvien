@@ -1,5 +1,5 @@
 // Họ và tên: Nguyễn Văn Hùng
-// Mã sinh viên: [MSSV Văn Hùng]
+// Mã sinh viên: 23203100079
 // Nội dung thực hiện: Module 3 - ViewModel danh sách độc giả (tìm kiếm, lọc, phân trang)
 
 using QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities;
