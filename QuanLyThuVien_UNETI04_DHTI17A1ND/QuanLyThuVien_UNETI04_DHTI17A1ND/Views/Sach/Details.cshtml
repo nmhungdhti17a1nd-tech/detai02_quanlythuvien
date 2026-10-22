@@ -59,7 +59,12 @@
         </dl>
 
         <div class="mt-3">
-            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            <!-- Chỉ hiển thị nút Mượn sách nếu là Độc giả (không phải Admin) và sách đang phục vụ -->
+            @if (Context.Session.GetString("VaiTro") == "DocGia" && Model.TrangThai == 0 && Model.SoLuongCon > 0)
+            {
+                <a asp-controller="MuonSach" asp-action="DangKy" asp-route-maSach="@Model.MaSach" class="btn btn-success">Mượn sách</a>
+            }
+            <button type="button" onclick="history.back();" class="btn btn-secondary">Quay lại</button>
         </div>
     </div>
 </div>
