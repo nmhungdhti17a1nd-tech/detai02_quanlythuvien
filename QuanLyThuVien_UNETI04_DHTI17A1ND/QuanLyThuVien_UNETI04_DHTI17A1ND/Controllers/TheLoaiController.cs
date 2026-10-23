@@ -1,5 +1,5 @@
 ﻿// Họ và tên: Chu Công Đạt
-// Mã sinh viên: [MSSV của bạn]
+// Mã sinh viên: 23203100049
 // Nội dung thực hiện: Module 1 - Quản lý thể loại sách
 
 using Microsoft.AspNetCore.Mvc;

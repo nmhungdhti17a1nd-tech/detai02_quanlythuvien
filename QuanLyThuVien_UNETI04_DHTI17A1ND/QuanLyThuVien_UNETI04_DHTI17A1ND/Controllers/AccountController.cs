@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// Họ và tên: Chu Công Đạt
+// Mã sinh viên: 23203100049
+// Nội dung thực hiện: Module 1 - Đăng nhập, Đăng xuất, Đăng ký, Phân quyền
+using Microsoft.AspNetCore.Mvc;
 using QuanLyThuVien_UNETI04_DHTI17A1ND.Data;
 using QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities;
 using QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels;

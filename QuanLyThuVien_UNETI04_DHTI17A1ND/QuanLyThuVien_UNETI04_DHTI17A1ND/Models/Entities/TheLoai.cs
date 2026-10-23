@@ -1,5 +1,5 @@
 ﻿// Họ và tên: [Chu Công Đạt]
-// Mã sinh viên: [MSSV Đạt]
+// Mã sinh viên: [23203100049]
 // Nội dung thực hiện: Module 1 - Quản lý thể loại sách
 
 using System.ComponentModel.DataAnnotations;
