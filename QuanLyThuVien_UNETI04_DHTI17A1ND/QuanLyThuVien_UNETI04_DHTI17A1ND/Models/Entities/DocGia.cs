@@ -1,5 +1,5 @@
 ﻿// Họ và tên: [Nguyễn Văn Hùng]
-// Mã sinh viên: [MSSV Văn Hùng]
+// Mã sinh viên: 23203100079
 // Nội dung thực hiện: Module 3 - Quản lý độc giả và đăng ký mượn sách
 
 using System.ComponentModel.DataAnnotations;

@@ -1,5 +1,5 @@
 // Họ và tên: Nguyễn Văn Hùng
-// Mã sinh viên: [MSSV Văn Hùng]
+// Mã sinh viên: 23203100079
 // Nội dung thực hiện: Module 3 - Hàm hỗ trợ đọc thông tin đăng nhập từ Session
 
 namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Helpers
