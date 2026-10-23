@@ -1,5 +1,5 @@
 ﻿// Họ và tên: [Nguyễn Văn Hùng] + [Nguyễn Mạnh Hùng]
-// Mã sinh viên: [MSSV Văn Hùng] + 23203100075
+// Mã sinh viên: 23203100079 + 23203100075
 // Nội dung thực hiện: Module 3 - Chi tiết phiếu mượn | Module 4 - Trả sách
 
 using System.ComponentModel.DataAnnotations;

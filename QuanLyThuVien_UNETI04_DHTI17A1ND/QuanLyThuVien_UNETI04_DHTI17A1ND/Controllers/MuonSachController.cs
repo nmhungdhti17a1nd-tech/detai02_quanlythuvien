@@ -1,5 +1,5 @@
 // Họ và tên: Nguyễn Văn Hùng
-// Mã sinh viên: [MSSV Văn Hùng]
+// Mã sinh viên: 23203100079
 // Nội dung thực hiện: Module 3 - Đăng ký mượn sách và xem thông tin mượn của chính độc giả
 
 using Microsoft.AspNetCore.Mvc;
