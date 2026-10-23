@@ -1,5 +1,5 @@
 ﻿// Họ và tên: [Vũ Duy Anh]
-// Mã sinh viên: [MSSV Duy Anh]
+// Mã sinh viên: [23203100073]
 // Nội dung thực hiện: Module 2 - Quản lý và tra cứu sách
 
 using System.ComponentModel.DataAnnotations;
