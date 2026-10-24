@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Họ và tên: Chu Công Đạt
+// Mã sinh viên: [23203100049]
+// Nội dung thực hiện: Module 1 - Đăng nhập tài khoản độc giả
+using System.ComponentModel.DataAnnotations;
 
 namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Models.ViewModels
 {
