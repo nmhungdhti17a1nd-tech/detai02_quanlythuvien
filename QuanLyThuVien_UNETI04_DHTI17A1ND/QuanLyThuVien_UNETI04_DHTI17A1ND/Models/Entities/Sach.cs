@@ -46,7 +46,8 @@ namespace QuanLyThuVien_UNETI04_DHTI17A1ND.Models.Entities
         [Display(Name = "Số lượng còn")]
         public int SoLuongCon { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Giá sách phải > 0")]
+        [Required(ErrorMessage = "Giá sách không được để trống")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Giá sách phải lớn hơn 0")]
         [Display(Name = "Giá sách")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal GiaSach { get; set; }
